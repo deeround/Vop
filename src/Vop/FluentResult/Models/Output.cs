@@ -1,4 +1,4 @@
-﻿namespace Vop.Api
+﻿namespace Vop.Api.FluentResult
 {
     public class Output
     {

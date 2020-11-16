@@ -24,26 +24,9 @@ namespace Vop.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFluentException(x => { });
+            
 
-            services.AddCorsAccessor(builder =>
-            {
-                builder.Name = "localhost";
-                builder.WithOrigins("http://localhost:5000")
-                       .AllowAnyHeader();
-            });
-
-            services.AddControllers()
-                .AddMvcValidation()
-                .AddMvcResult()
-                .AddMvcException()
-                .AddDynamicApiController(x =>
-                {
-                    //…Ë÷√≤Œ ˝
-                })
-                ;
-
-            services.AddSwagger();
+            services.AddStartupModule<VopWebModule>(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,20 +37,7 @@ namespace Vop.Web
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseFluentException();
-
-            app.UseRouting();
-
-            app.UseCorsAccessor("localhost");
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            app.UseSwagger();
+            app.UseStartupModule<VopWebModule>(env);
         }
     }
 }

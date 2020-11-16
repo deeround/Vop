@@ -1,9 +1,9 @@
-﻿using Kuafu;
-using Kuafu.DynamicApiController;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vop.Api.DynamicApiController;
+using Vop.Api.FluentException;
 using Vop.Web.Dtos;
 
 namespace Vop.Web.Services

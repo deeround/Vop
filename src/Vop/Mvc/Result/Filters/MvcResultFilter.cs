@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Threading.Tasks;
+using Vop.Api.FluentResult;
 
 namespace Vop.Api
 {
     public class MvcResultFilter : IAsyncActionFilter, IOrderedFilter
     {
-        public MvcResultFilter()
+        private readonly IFluentResultProvider _fluentResultProvider;
+
+        public MvcResultFilter(IFluentResultProvider fluentResultProvider)
         {
+            _fluentResultProvider = fluentResultProvider;
         }
 
         public int Order => 9999;
@@ -25,14 +26,7 @@ namespace Vop.Api
                 if (actionExecutedContext.Result is ContentResult contentResult) data = contentResult.Content;
                 else if (actionExecutedContext.Result is ObjectResult objectResult) data = objectResult.Value;
                 else data = null;
-                var output = new Output()
-                {
-                    Code = 1,
-                    Msg = "操作成功",
-                    Data = data
-                };
-                var result = new ObjectResult(output);
-                actionExecutedContext.Result = result;
+                actionExecutedContext.Result = _fluentResultProvider.OnSuccessed(data);
             }
         }
     }
