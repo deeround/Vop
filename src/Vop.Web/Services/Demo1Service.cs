@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vop.Api.DependencyInjection;
 using Vop.Api.DynamicApiController;
 using Vop.Api.FluentException;
 using Vop.Web.Dtos;
 
 namespace Vop.Web.Services
 {
-    public class Demo1Service : IDynamicApiController
+    [Interceptor(typeof(LogDispatchProxy))]
+    public class Demo1Service : IDynamicApiController, ITransientDependency
     {
         /// <summary>
         /// 测试Get

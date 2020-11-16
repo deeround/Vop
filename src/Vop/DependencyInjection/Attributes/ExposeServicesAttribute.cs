@@ -22,6 +22,14 @@ namespace Vop.Api.DependencyInjection
         {
             var serviceList = ServiceTypes.ToList();
 
+            if (IncludeSelf)
+            {
+                if (!serviceList.Contains(targetType))
+                {
+                    serviceList.Add(targetType);
+                }
+            }
+
             if (IncludeDefaults)
             {
                 foreach (var type in GetDefaultServices(targetType))
@@ -30,21 +38,6 @@ namespace Vop.Api.DependencyInjection
                     {
                         serviceList.Add(type);
                     }
-                }
-
-                if (IncludeSelf)
-                {
-                    if (!serviceList.Contains(targetType))
-                    {
-                        serviceList.Add(targetType);
-                    }
-                }
-            }
-            else if (IncludeSelf)
-            {
-                if (!serviceList.Contains(targetType))
-                {
-                    serviceList.Add(targetType);
                 }
             }
 

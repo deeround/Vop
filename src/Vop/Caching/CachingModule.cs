@@ -2,32 +2,25 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Vop.Api.CorsAccessor;
-using Vop.Api.FluentResult;
+using System;
 using Vop.Api.Modularity;
-using Vop.Api.Swagger;
 
-namespace Vop.Web
+namespace Vop.Api.FluentResult
 {
-    [DependsOn(
-        typeof(MvcModule), 
-        typeof(CorsAccessorModule), 
-        typeof(ApiSwaggerModule),
-        typeof(CachingModule))]
-    public class VopWebModule : ApiModuleBase
+    public class CachingModule : ApiModuleBase
     {
-        public VopWebModule(IConfiguration configuration) : base(configuration)
+        public CachingModule(IConfiguration configuration) : base(configuration)
         {
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedCache(x=> { });
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseDistributedCache();
         }
-
-
     }
 }

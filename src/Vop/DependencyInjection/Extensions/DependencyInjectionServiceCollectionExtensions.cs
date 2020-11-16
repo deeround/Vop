@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,28 +14,10 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public static class DependencyInjectionServiceCollectionExtensions
     {
-        /// <summary>
-        /// 添加依赖注入接口
-        /// </summary>
-        /// <param name="services">服务集合</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
+        public static IServiceCollection AddDependencyInjection(this IServiceCollection services, Type type)
         {
             // 注册类
-
-            return services;
-        }
-
-        /// <summary>
-        /// 添加接口代理
-        /// </summary>
-        /// <typeparam name="TDispatchProxy">代理类</typeparam>
-        /// <typeparam name="IDispatchProxy">被代理接口依赖</typeparam>
-        /// <param name="services">服务集合</param>
-        /// <returns>服务集合</returns>
-        public static IServiceCollection AddScopedDispatchProxyForInterface<TDispatchProxy, IDispatchProxy>(this IServiceCollection services) where TDispatchProxy : DispatchProxy
-        {
-            // 注册代理类
+            AddType(services, type);
 
             return services;
         }
@@ -72,6 +55,29 @@ namespace Microsoft.Extensions.DependencyInjection
                 else
                 {
                     services.Add(serviceDescriptor);
+                }
+
+                // 注册代理类
+                var proxyType = GetProxyService(type);
+                if (proxyType != null)
+                {
+                    //RegisterDispatchProxy(services, proxyType, lifeTime.Value);
+                    //serviceDescriptor = ServiceDescriptor.Describe(serviceType, provider =>
+                    //{
+                    //    dynamic proxy = DispatchCreateMethod.MakeGenericMethod(serviceType, proxyType).Invoke(null, null);
+                    //    proxy.Services = provider;
+                    //    proxy.Target = provider.GetService(type);
+                    //    return proxy;
+                    //}, lifeTime.Value);
+                    //services.Add(serviceDescriptor);
+
+                    serviceDescriptor = ServiceDescriptor.Describe(serviceType, provider =>
+                    {
+                        var proxy = ProxyGenerator.Create(serviceType, proxyType, provider.GetService(type));
+                        return proxy;
+                    }, lifeTime.Value);
+                    services.Add(serviceDescriptor);
+
                 }
             }
         }
@@ -124,6 +130,12 @@ namespace Microsoft.Extensions.DependencyInjection
                 .ToList();
         }
 
+        static Type GetProxyService(Type type)
+        {
+            var attrs = type.GetCustomAttribute<InterceptorAttribute>(true);
+            return attrs?.ProxyType;
+        }
+
         static ServiceLifetime? GetLifeTimeOrNull(Type type, DependencyAttribute dependencyAttribute)
         {
             return dependencyAttribute?.Lifetime ?? GetServiceLifetimeFromClassHierarcy(type);
@@ -147,6 +159,34 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// 创建代理方法
+        /// </summary>
+        private static readonly MethodInfo DispatchCreateMethod;
+        /// <summary>
+        /// 已经注册的代理类
+        /// </summary>
+        private static readonly ConcurrentBag<(ServiceLifetime, Type)> RegisterDispatchProxies;
+
+        private static void RegisterDispatchProxy(IServiceCollection services, Type proxyType, ServiceLifetime serviceLifetime)
+        {
+            if (RegisterDispatchProxies.Contains((serviceLifetime, proxyType))) return;
+
+            var serviceDescriptor = ServiceDescriptor.Describe(typeof(DispatchProxy), proxyType, serviceLifetime);
+            services.Add(serviceDescriptor);
+
+            RegisterDispatchProxies.Add((serviceLifetime, proxyType));
+        }
+
+        /// <summary>
+        /// 静态构造函数
+        /// </summary>
+        static DependencyInjectionServiceCollectionExtensions()
+        {
+            DispatchCreateMethod = typeof(DispatchProxy).GetMethod(nameof(DispatchProxy.Create));
+            RegisterDispatchProxies = new ConcurrentBag<(ServiceLifetime, Type)>();
         }
     }
 }

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using Vop.Api.FluentException;
 using Vop.Api.Modularity;
 
 namespace Vop.Api.FluentResult
 {
+    [DependsOn(typeof(FluentResultModule), typeof(FluentExceptionModule))]
     public class MvcModule : ApiModuleBase
     {
         public MvcModule(IConfiguration configuration) : base(configuration)
@@ -21,16 +23,13 @@ namespace Vop.Api.FluentResult
                  .AddMvcException()
                  .AddDynamicApiController(x =>
                  {
-                    //设置参数
-                })
-                 ;
+                     //设置参数
+                 });
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRouting();
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
