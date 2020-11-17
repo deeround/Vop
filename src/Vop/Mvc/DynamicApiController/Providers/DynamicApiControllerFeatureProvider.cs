@@ -15,7 +15,7 @@ namespace Vop.Api.DynamicApiController
         /// <returns>bool</returns>
         protected override bool IsController(TypeInfo typeInfo)
         {
-            return Penetrates.IsController(typeInfo);
+            return Common.IsController(typeInfo);
         }
     }
 }

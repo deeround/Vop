@@ -13,6 +13,10 @@ namespace Vop.Api.FluentResult
         {
         }
 
+        public override void Configure(IServiceCollection services)
+        {
+        }
+
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddFluentResult();

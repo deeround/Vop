@@ -5,7 +5,7 @@ namespace Vop.Api.FluentException
     public abstract class ApiExceptionBase : Exception
     {
         public virtual int? Code { get; set; } = -1;
-        public virtual string Msg { get; set; } = "操作失败";
+        public virtual string Msg { get; set; } = "未知错误";
 
         //
         // 摘要:

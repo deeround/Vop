@@ -25,7 +25,6 @@ namespace Microsoft.Extensions.DependencyInjection
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.ApiKey
                 });
-
                 //Set the comments path for the swagger json and ui.
                 var xmlPath = System.AppDomain.CurrentDomain.BaseDirectory;
                 var files = System.IO.Directory.GetFiles(xmlPath, "*.xml");

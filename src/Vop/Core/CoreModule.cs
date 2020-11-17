@@ -13,6 +13,10 @@ namespace Vop.Api
         {
         }
 
+        public override void Configure(IServiceCollection services)
+        {
+        }
+
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ICancellationTokenProvider>(NullCancellationTokenProvider.Instance);

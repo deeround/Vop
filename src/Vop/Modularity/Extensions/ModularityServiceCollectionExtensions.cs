@@ -16,11 +16,12 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddStartupModule<TApiModule>(this IServiceCollection services, IConfiguration configuration) where TApiModule : IApiModule
         {
             TryAdd(typeof(TApiModule));
-            LoadModuleTypes(typeof(TApiModule));
+            LoadModules(typeof(TApiModule));
             TryAdd(typeof(DependencyInjectionModule));
             TryAdd(typeof(CoreModule));
-            InitModuleTypes(configuration);
+            InitModules(configuration);
 
+            ModuleConfigure(services);
             ModuleConfigureServices(services);
 
             return services;
@@ -31,6 +32,14 @@ namespace Microsoft.Extensions.DependencyInjection
             ModuleConfigure(app, env);
 
             return app;
+        }
+
+        static void ModuleConfigure(IServiceCollection services)
+        {
+            foreach (var item in Modules)
+            {
+                item.Configure(services);
+            }
         }
 
         static void ModuleConfigureServices(IServiceCollection services)
@@ -57,26 +66,29 @@ namespace Microsoft.Extensions.DependencyInjection
         static List<Type> ModuleTypes = new List<Type>();
         static List<IApiModule> Modules = new List<IApiModule>();
 
-        static void LoadModuleTypes(Type type)
+        static void LoadModules(Type type)
         {
-            var types = GetDependTypes(type);
+            var types = GetDependModules(type);
             foreach (var item in types)
             {
                 TryAdd(item);
             }
             foreach (var item in types)
             {
-                LoadModuleTypes(item);
+                LoadModules(item);
             }
         }
 
-        static void InitModuleTypes(IConfiguration configuration)
+        static void InitModules(IConfiguration configuration)
         {
             ModuleTypes.Reverse();
             foreach (var item in ModuleTypes)
             {
-                var m = Activator.CreateInstance(item, configuration) as IApiModule;
-                Modules.Add(m);
+                if (IsModule(item))
+                {
+                    var m = Activator.CreateInstance(item, configuration) as IApiModule;
+                    Modules.Add(m);
+                }
             }
         }
 
@@ -91,16 +103,10 @@ namespace Microsoft.Extensions.DependencyInjection
 
         static bool IsModule(Type type)
         {
-            return type.IsDefined(typeof(IApiModule), true);
+            return typeof(IApiModule).GetTypeInfo().IsAssignableFrom(type);
         }
 
-        static bool HasDependModule(Type type)
-        {
-            var attrs = type.GetCustomAttributes<DependsOnAttribute>(true);
-            return (attrs != null && attrs.Count() > 0);
-        }
-
-        static List<Type> GetDependTypes(Type type)
+        static List<Type> GetDependModules(Type type)
         {
             var attrs = type.GetCustomAttributes<DependsOnAttribute>(true);
             if (attrs == null || attrs.Count() == 0) return new List<Type>();

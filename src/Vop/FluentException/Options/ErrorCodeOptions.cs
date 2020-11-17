@@ -11,9 +11,10 @@ namespace Vop.Api.FluentException
 
         public List<KeyValuePair<int?, string>> ErrorCodes { get; set; }
 
-        public void Add(int? errCode, string errMsg)
+        public ErrorCodeOptions Add(int? errCode, string errMsg)
         {
             ErrorCodes.Add(new KeyValuePair<int?, string>(errCode, errMsg));
+            return this;
         }
     }
 }

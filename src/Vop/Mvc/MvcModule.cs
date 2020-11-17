@@ -19,15 +19,14 @@ namespace Vop.Api.Mvc
         {
         }
 
+        public override void Configure(IServiceCollection services)
+        {
+        }
+
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICancellationTokenProvider, HttpContextCancellationTokenProvider>();
-
-            services.Configure<DynamicApiControllerSettingsOptions>(builder =>
-            {
-
-            });
 
             var dynamicApiControllerSettingsOption = ApiApplication.GetService<IOptions<DynamicApiControllerSettingsOptions>>();
 

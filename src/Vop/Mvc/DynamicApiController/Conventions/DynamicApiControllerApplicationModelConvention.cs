@@ -127,14 +127,14 @@ namespace Vop.Api.DynamicApiController
                 // 处理动作方法名称谓词
                 if (apiDescriptionSettings?.KeepVerb != true)
                 {
-                    var words = Penetrates.SplitCamelCase(tempName);
+                    var words = Common.SplitCamelCase(tempName);
                     var verbKey = words.First().ToLower();
                     // 处理类似 getlist,getall 多个单词
-                    if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                    if (words.Length > 1 && Common.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
                     {
                         tempName = tempName[(words[0] + words[1]).Length..];
                     }
-                    else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                    else if (Common.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
                 }
 
                 return tempName;
@@ -152,9 +152,9 @@ namespace Vop.Api.DynamicApiController
             if (selectorModel.ActionConstraints.Count > 0) return;
 
             // 解析请求谓词
-            var verbKey = Penetrates.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
-            var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
-                ? Penetrates.VerbToHttpMethods[verbKey]
+            var verbKey = Common.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
+            var verb = Common.VerbToHttpMethods.ContainsKey(verbKey)
+                ? Common.VerbToHttpMethods[verbKey]
                 : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
 
             // 添加请求约束
@@ -385,7 +385,7 @@ namespace Vop.Api.DynamicApiController
                 apiVersion ??= version;
 
                 // 清除指定前后缀
-                tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
+                tempName = Common.ClearStringAffixes(tempName, affixes: affixes);
 
                 // 判断是否保留原有名称
                 if ((apiDescriptionSettings?.KeepName == null || apiDescriptionSettings.KeepName == false) && _dynamicApiControllerSettings?.KeepName != true)
@@ -396,7 +396,7 @@ namespace Vop.Api.DynamicApiController
                     // 处理骆驼命名
                     if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
                     {
-                        tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
+                        tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Common.SplitCamelCase(tempName));
                     }
                 }
             }

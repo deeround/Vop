@@ -33,7 +33,7 @@ namespace Vop.Api.DynamicApiController
         /// <param name="groups">分组列表</param>
         public ApiDescriptionSettingsAttribute(params string[] groups) : base()
         {
-            base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
+            base.GroupName = string.Join(Common.GroupSeparator, groups);
             Groups = groups;
             SplitCamelCase = true;
         }

@@ -11,7 +11,7 @@ namespace Vop.Api.DynamicApiController
     /// <summary>
     /// 常量、公共方法配置类
     /// </summary>
-    internal static class Penetrates
+    internal static class Common
     {
         /// <summary>
         /// 分组分隔符
@@ -26,7 +26,7 @@ namespace Vop.Api.DynamicApiController
         /// <summary>
         /// 构造函数
         /// </summary>
-        static Penetrates()
+        static Common()
         {
             VerbToHttpMethods = new Dictionary<string, string>
             {

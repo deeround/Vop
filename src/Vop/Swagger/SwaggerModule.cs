@@ -13,6 +13,10 @@ namespace Vop.Api.Swagger
         {
         }
 
+        public override void Configure(IServiceCollection services)
+        {
+        }
+
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddSwagger();
@@ -22,7 +26,5 @@ namespace Vop.Api.Swagger
         {
             app.UseSwagger();
         }
-
-
     }
 }

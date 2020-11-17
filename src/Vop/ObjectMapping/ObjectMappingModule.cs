@@ -2,15 +2,14 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System;
 using Vop.Api.Modularity;
 
-namespace Vop.Api.DependencyInjection
+namespace Vop.Api.ObjectMapping
 {
-    public class DependencyInjectionModule : ApiModuleBase
+    public class ObjectMappingModule : ApiModuleBase
     {
-        public DependencyInjectionModule(IConfiguration configuration) : base(configuration)
+        public ObjectMappingModule(IConfiguration configuration) : base(configuration)
         {
         }
 
@@ -20,11 +19,12 @@ namespace Vop.Api.DependencyInjection
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddDependencyInjection();
+            services.AddObjectMapping();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseObjectMapping();
         }
     }
 }

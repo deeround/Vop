@@ -15,6 +15,8 @@ namespace Vop.Api.Modularity
 
         public IConfiguration Configuration { get; private set; }
 
+        public abstract void Configure(IServiceCollection services);
+
         public abstract void ConfigureServices(IServiceCollection services);
 
         public abstract void Configure(IApplicationBuilder app, IWebHostEnvironment env);

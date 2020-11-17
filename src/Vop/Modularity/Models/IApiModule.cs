@@ -13,6 +13,8 @@ namespace Vop.Api.Modularity
     {
         public IConfiguration Configuration { get; }
 
+        void Configure(IServiceCollection services);
+
         // This method gets called by the runtime. Use this method to add services to the container.
         void ConfigureServices(IServiceCollection services);
 

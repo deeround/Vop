@@ -14,7 +14,7 @@ namespace Vop.Api.CorsAccessor
         {
         }
 
-        public override void ConfigureServices(IServiceCollection services)
+        public override void Configure(IServiceCollection services)
         {
             services.Configure<CorsAccessorBuilderOptions>(builder =>
             {
@@ -22,7 +22,10 @@ namespace Vop.Api.CorsAccessor
                 builder.WithOrigins("http://localhost:5000")
                        .AllowAnyHeader();
             });
+        }
 
+        public override void ConfigureServices(IServiceCollection services)
+        {
             var option = ApiApplication.GetService<IOptions<CorsAccessorBuilderOptions>>();
 
             services.AddCorsAccessor(option.Value);

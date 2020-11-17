@@ -21,6 +21,10 @@ namespace Vop.Web
         {
         }
 
+        public override void Configure(IServiceCollection services)
+        {
+        }
+
         public override void ConfigureServices(IServiceCollection services)
         {
         }
@@ -28,7 +32,5 @@ namespace Vop.Web
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
         }
-
-
     }
 }
