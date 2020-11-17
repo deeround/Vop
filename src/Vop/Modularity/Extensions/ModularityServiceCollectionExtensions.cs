@@ -6,6 +6,8 @@ using System.Reflection;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Vop.Api;
+using Vop.Api.DependencyInjection;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -15,6 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             TryAdd(typeof(TApiModule));
             LoadModuleTypes(typeof(TApiModule));
+            TryAdd(typeof(DependencyInjectionModule));
+            TryAdd(typeof(CoreModule));
             InitModuleTypes(configuration);
 
             ModuleConfigureServices(services);

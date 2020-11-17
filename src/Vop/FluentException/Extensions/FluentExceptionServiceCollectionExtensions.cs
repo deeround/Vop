@@ -6,16 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class FluentExceptionServiceCollectionExtensions
     {
-        //public static IServiceCollection AddFluentException(this IServiceCollection services, ErrorCodeOptions option)
-        //{
-        //    return services;
-        //}
-
-        public static IServiceCollection AddFluentException(this IServiceCollection services, Action<ErrorCodeOptions> setupAction)
+        public static IServiceCollection AddFluentException(this IServiceCollection services, ErrorCodeOptions option)
         {
-            var option = new ErrorCodeOptions();
-            setupAction?.Invoke(option);
-
             return services;
         }
 

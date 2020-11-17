@@ -6,21 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class CorsAccessorServiceCollectionExtensions
     {
-        //public static IServiceCollection AddCorsAccessor(this IServiceCollection services, CorsAccessorOptions option)
-        //{
-        //    services.AddCors(options =>
-        //    {
-        //        options.AddPolicy(option.Name, option);
-        //    });
-
-        //    return services;
-        //}
-
-        public static IServiceCollection AddCorsAccessor(this IServiceCollection services, Action<CorsAccessorBuilderOptions> setupAction)
+        public static IServiceCollection AddCorsAccessor(this IServiceCollection services, CorsAccessorBuilderOptions option)
         {
-            var option = new CorsAccessorBuilderOptions();
-            setupAction?.Invoke(option);
-
             services.AddCors(options =>
             {
                 options.AddPolicy(option.Name, option.Build());

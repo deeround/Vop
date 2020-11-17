@@ -7,9 +7,9 @@ using Vop.Api.Modularity;
 
 namespace Vop.Api.Swagger
 {
-    public class ApiSwaggerModule : ApiModuleBase
+    public class SwaggerModule : ApiModuleBase
     {
-        public ApiSwaggerModule(IConfiguration configuration) : base(configuration)
+        public SwaggerModule(IConfiguration configuration) : base(configuration)
         {
         }
 

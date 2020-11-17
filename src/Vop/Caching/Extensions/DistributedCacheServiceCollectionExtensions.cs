@@ -6,21 +6,15 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DistributedCacheServiceCollectionExtensions
     {
-        public static IServiceCollection AddDistributedCache(this IServiceCollection services, Action<DistributedCacheOptions> setupAction)
+        public static IServiceCollection AddDistributedCache(this IServiceCollection services, DistributedCacheOptions option)
         {
-            var option = new DistributedCacheOptions();
-            setupAction?.Invoke(option);
-
             services.AddMemoryCache();
             services.AddDistributedMemoryCache();
 
+            services.AddSingleton<IDistributedCacheSerializer, Utf8JsonDistributedCacheSerializer>();
+            services.AddSingleton<IDistributedCacheKeyNormalizer, DistributedCacheKeyNormalizer>();
             services.AddSingleton(typeof(IDistributedCache<>), typeof(DistributedCache<>));
             services.AddSingleton(typeof(IDistributedCache<,>), typeof(DistributedCache<,>));
-
-            services.Configure<DistributedCacheOptions>(cacheOptions =>
-            {
-                cacheOptions.GlobalCacheEntryOptions.SlidingExpiration = TimeSpan.FromMinutes(20);
-            });
 
             return services;
         }
