@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Vop.Api.Authentication;
 using Vop.Api.Caching;
 using Vop.Api.CorsAccessor;
 using Vop.Api.Modularity;
@@ -14,7 +15,8 @@ namespace Vop.Web
         typeof(MvcModule), 
         typeof(CorsAccessorModule), 
         typeof(SwaggerModule),
-        typeof(CachingModule))]
+        typeof(CachingModule),
+        typeof(AuthenticationModule))]
     public class VopWebModule : ApiModuleBase
     {
         public VopWebModule(IConfiguration configuration) : base(configuration)
