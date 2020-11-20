@@ -48,7 +48,7 @@ namespace Vop.Api.Authentication
         public long? ClockSkew { get; set; }
 
         /// <summary>
-        /// 过期时间（分钟）
+        /// 过期时间（秒）
         /// </summary>
         public long? ExpiredTime { get; set; }
     }

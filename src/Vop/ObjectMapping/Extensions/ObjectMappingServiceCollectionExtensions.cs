@@ -7,12 +7,12 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ObjectMappingServiceCollectionExtensions
     {
-        public static IServiceCollection AddObjectMapping(this IServiceCollection services)
+        public static IServiceCollection AddObjectMapper(this IServiceCollection services)
         {
             return services;
         }
 
-        public static IApplicationBuilder UseObjectMapping(this IApplicationBuilder app)
+        public static IApplicationBuilder UseObjectMapper(this IApplicationBuilder app)
         {
             return app;
         }

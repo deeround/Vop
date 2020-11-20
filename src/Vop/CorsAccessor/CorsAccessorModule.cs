@@ -20,7 +20,8 @@ namespace Vop.Api.CorsAccessor
             {
                 builder.Name = "localhost";
                 builder.WithOrigins("http://localhost:5000")
-                       .AllowAnyHeader();
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
             });
         }
 

@@ -19,12 +19,12 @@ namespace Vop.Api.ObjectMapping
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddObjectMapping();
+            services.AddObjectMapper();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseObjectMapping();
+            app.UseObjectMapper();
         }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using Vop.Api.Modularity;
 
@@ -15,16 +16,26 @@ namespace Vop.Api.Swagger
 
         public override void Configure(IServiceCollection services)
         {
+            services.Configure<SwaggerSettingsOptions>(options =>
+            {
+                options.Title = "Api";
+                options.Version = null;
+                options.Description = "Api接口文档";
+            });
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwagger();
+            var options = ApiApplication.GetService<IOptions<SwaggerSettingsOptions>>();
+
+            services.AddSwagger(options.Value);
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseSwagger();
+            var options = ApiApplication.GetService<IOptions<SwaggerSettingsOptions>>();
+
+            app.UseSwagger(options.Value);
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using Vop.Api.Modularity;
 
 namespace Vop.Api.Authentication
@@ -20,38 +21,29 @@ namespace Vop.Api.Authentication
         {
             services.Configure<JwtSettingsOptions>(options =>
             {
-                options.ValidateIssuerSigningKey ??= true;
-                if (options.ValidateIssuerSigningKey == true)
-                {
-                    options.IssuerSigningKey ??= "U2FsdGVkX1+6H3D8Q//yQMhInzTdRZI9DbUGetbyaag=";
-                }
-                options.ValidateIssuer ??= true;
-                if (options.ValidateIssuer == true)
-                {
-                    options.ValidIssuer ??= "dotnetchina";
-                }
-                options.ValidateAudience ??= true;
-                if (options.ValidateAudience == true)
-                {
-                    options.ValidAudience ??= "powerby Fur";
-                }
-                options.ValidateLifetime ??= true;
-                if (options.ValidateLifetime == true)
-                {
-                    options.ClockSkew ??= 10;
-                }
-                options.ExpiredTime ??= 20;
+                options.ValidateIssuerSigningKey = true;
+                options.IssuerSigningKey = "123456123456123456";
+                options.ValidateIssuer = false;
+                options.ValidIssuer = "vop.api";
+                options.ValidateAudience = false;
+                options.ValidAudience = "vop.web";
+                options.ValidateLifetime = true;
+                options.ClockSkew = 300;
+                options.ExpiredTime = 3600;
             });
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IJwtTokenHandler, JwtTokenHandler>();
+
             var option = ApiApplication.GetService<IOptions<JwtSettingsOptions>>().Value;
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, configureOptions =>
                     {
-                        configureOptions.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                        configureOptions.TokenValidationParameters = new TokenValidationParameters()
                         {
                             // 验证签发方密钥
                             ValidateIssuerSigningKey = option.ValidateIssuerSigningKey.Value,
@@ -70,6 +62,7 @@ namespace Vop.Api.Authentication
                             // 过期时间容错值
                             ClockSkew = TimeSpan.FromSeconds(option.ClockSkew.Value),
                         };
+                        configureOptions.SaveToken = true;
                     });
         }
 
@@ -77,7 +70,5 @@ namespace Vop.Api.Authentication
         {
 
         }
-
-
     }
 }

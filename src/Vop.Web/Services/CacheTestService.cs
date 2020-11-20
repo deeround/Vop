@@ -1,7 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Vop.Api;
+using Vop.Api.Authentication;
 using Vop.Api.Caching;
 using Vop.Api.DependencyInjection;
 using Vop.Api.DynamicApiController;
@@ -12,10 +16,12 @@ namespace Vop.Web.Services
     public class CacheTestService : IDynamicApiController, ITransientDependency
     {
         private readonly IDistributedCache<BookCacheItem> _cache;
+        private readonly IJwtTokenHandler _jwtTokenHandler;
 
-        public CacheTestService(IDistributedCache<BookCacheItem> cache)
+        public CacheTestService(IDistributedCache<BookCacheItem> cache, IJwtTokenHandler jwtTokenHandler)
         {
             _cache = cache;
+            _jwtTokenHandler = jwtTokenHandler;
         }
 
         [Authorize]
@@ -43,15 +49,11 @@ namespace Vop.Web.Services
             );
         }
 
-        public async Task<string> CreateToken()
+        public async Task<TokenInfo> CreateToken()
         {
-            //{"sub": "1234567890", "name": "John Doe", "iat": 1516239022}
-            return Api.Authentication.JWTEncryption.Encrypt("U2FsdGVkX1+6H3D8Q//yQMhInzTdRZI9DbUGetbyaag=", new System.Collections.Generic.Dictionary<string, object>()
-            {
-                { "sub","1234567890" },
-                { "name","John Doe" },
-                { "iat",1516239022 },
-            });
+            var sod = new Dictionary<string, object>();
+            sod.Add("userId", "111111111");
+            return _jwtTokenHandler.CreateToken(sod); ;
         }
 
 

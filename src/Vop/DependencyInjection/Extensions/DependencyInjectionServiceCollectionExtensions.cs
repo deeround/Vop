@@ -16,7 +16,11 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
         {
-            // 注册类
+            var assemblies = AssemblyHelper.GetAssemblies();
+            foreach (var item in assemblies)
+            {
+                AddAssembly(services, item);
+            }
 
             return services;
         }
