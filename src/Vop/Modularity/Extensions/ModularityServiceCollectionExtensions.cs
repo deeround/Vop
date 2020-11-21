@@ -103,7 +103,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         static bool IsModule(Type type)
         {
-            return typeof(IApiModule).GetTypeInfo().IsAssignableFrom(type);
+            return typeof(IApiModule).IsAssignableFrom(type);
         }
 
         static List<Type> GetDependModules(Type type)

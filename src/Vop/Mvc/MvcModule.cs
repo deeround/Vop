@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System;
-using Vop.Api.DynamicApiController;
 using Vop.Api.FluentException;
 using Vop.Api.FluentResult;
 using Vop.Api.Modularity;
@@ -28,13 +25,11 @@ namespace Vop.Api.Mvc
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICancellationTokenProvider, HttpContextCancellationTokenProvider>();
 
-            var dynamicApiControllerSettingsOption = ApiApplication.GetService<IOptions<DynamicApiControllerSettingsOptions>>();
-
             services.AddControllers()
+                 .AddNewtonsoftJson()
                  .AddMvcValidation()
                  .AddMvcResult()
-                 .AddMvcException()
-                 .AddDynamicApiController(dynamicApiControllerSettingsOption.Value);
+                 .AddMvcException();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)

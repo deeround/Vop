@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
-namespace Vop.Api.DynamicApiController
+namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 动态接口控制器配置
     /// </summary>
-    public class DynamicApiControllerSettingsOptions
+    public sealed class DynamicApiControllerSettingsOptions
     {
         /// <summary>
         /// 默认路由前缀
@@ -16,7 +16,6 @@ namespace Vop.Api.DynamicApiController
         /// <summary>
         /// 默认请求谓词
         /// </summary>
-        [Required]
         public string DefaultHttpMethod { get; set; }
 
         /// <summary>
@@ -27,12 +26,7 @@ namespace Vop.Api.DynamicApiController
         /// <summary>
         /// 小写路由
         /// </summary>
-        public bool? LowerCaseRoute { get; set; }
-
-        /// <summary>
-        /// 小驼峰路由
-        /// </summary>
-        public bool? CamelCaseRoute { get; set; }
+        public bool? LowercaseRoute { get; set; }
 
         /// <summary>
         /// 保留行为名称谓词
@@ -52,6 +46,7 @@ namespace Vop.Api.DynamicApiController
         /// <summary>
         /// 版本号分隔符
         /// </summary>
+        [Required]
         public string VersionSeparator { get; set; }
 
         /// <summary>
@@ -74,28 +69,35 @@ namespace Vop.Api.DynamicApiController
         /// </summary>
         public string[] AbandonActionAffixes { get; set; }
 
+        /// <summary>
+        /// 选项后期配置
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="configuration"></param>
         public DynamicApiControllerSettingsOptions()
         {
-            this.DefaultRoutePrefix ??= "api";
-            this.DefaultHttpMethod ??= "POST";
-            this.LowerCaseRoute ??= false;
-            this.CamelCaseRoute ??= true;
-            this.KeepVerb ??= true;
-            this.KeepName ??= true;
-            this.CamelCaseSeparator ??= "-";
-            this.VersionSeparator ??= "@";
-            this.ModelToQuery ??= true;
-            this.SupportedMvcController ??= false;
-            this.AbandonControllerAffixes ??= new string[]
+            DefaultRoutePrefix ??= "api";
+            DefaultHttpMethod ??= "POST";
+            LowercaseRoute ??= true;
+            KeepVerb ??= false;
+            KeepName ??= false;
+            CamelCaseSeparator ??= "-";
+            VersionSeparator ??= "@";
+            ModelToQuery ??= false;
+            SupportedMvcController ??= false;
+            AbandonControllerAffixes ??= new string[]
             {
-                "Service",
-                "Controller",
+                "AppServices",
                 "AppService",
+                "ApiServices",
                 "ApiService",
                 "AppController",
                 "ApiController",
+                "Controller",
+                "Services",
+                "Service"
             };
-            this.AbandonActionAffixes ??= new string[]
+            AbandonActionAffixes ??= new string[]
             {
                 "Async"
             };

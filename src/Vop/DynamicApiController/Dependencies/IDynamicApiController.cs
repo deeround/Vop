@@ -1,4 +1,4 @@
-﻿namespace Vop.Api.DynamicApiController
+﻿namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 动态接口控制器依赖接口

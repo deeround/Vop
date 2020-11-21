@@ -1,14 +1,12 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Fur.DynamicApiController;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Vop.Api;
 using Vop.Api.Authentication;
 using Vop.Api.Caching;
 using Vop.Api.DependencyInjection;
-using Vop.Api.DynamicApiController;
 using Vop.Web.Models;
 
 namespace Vop.Web.Services

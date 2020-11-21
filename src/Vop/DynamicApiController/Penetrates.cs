@@ -6,12 +6,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Vop.Api.DynamicApiController
+namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 常量、公共方法配置类
     /// </summary>
-    internal static class Common
+    internal static class Penetrates
     {
         /// <summary>
         /// 分组分隔符
@@ -26,7 +26,7 @@ namespace Vop.Api.DynamicApiController
         /// <summary>
         /// 构造函数
         /// </summary>
-        static Common()
+        static Penetrates()
         {
             VerbToHttpMethods = new Dictionary<string, string>
             {

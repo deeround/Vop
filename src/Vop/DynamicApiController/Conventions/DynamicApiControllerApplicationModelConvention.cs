@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Vop.Api.DynamicApiController
+namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 动态接口控制器应用模型转换器
     /// </summary>
-    internal class DynamicApiControllerApplicationModelConvention : IApplicationModelConvention
+    internal sealed class DynamicApiControllerApplicationModelConvention : IApplicationModelConvention
     {
         /// <summary>
         /// 动态接口控制器配置实例
@@ -79,7 +80,7 @@ namespace Vop.Api.DynamicApiController
         /// <param name="apiDescriptionSettings">接口描述配置</param>
         private void ConfigureControllerName(ControllerModel controller, ApiDescriptionSettingsAttribute apiDescriptionSettings)
         {
-            controller.ControllerName = ConfigureControllerAndActionName(apiDescriptionSettings, controller.ControllerName, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
+            controller.ControllerName = ConfigureControllerAndActionName(apiDescriptionSettings, controller.ControllerType.Name, _dynamicApiControllerSettings.AbandonControllerAffixes, _ => _);
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace Vop.Api.DynamicApiController
             ConfigureActionApiExplorer(action);
 
             // 配置动作方法名称
-            ConfigureActionName(action, apiDescriptionSettings);
+            ConfigureActionName(action, apiDescriptionSettings, controllerApiDescriptionSettings);
 
             // 配置动作方法请求谓词特性
             ConfigureActionHttpMethodAttribute(action);
@@ -120,25 +121,26 @@ namespace Vop.Api.DynamicApiController
         /// </summary>
         /// <param name="action">动作方法模型</param>
         /// <param name="apiDescriptionSettings">接口描述配置</param>
-        private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings)
+        /// <param name="controllerApiDescriptionSettings"></param>
+        private void ConfigureActionName(ActionModel action, ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
         {
             action.ActionName = ConfigureControllerAndActionName(apiDescriptionSettings, action.ActionName, _dynamicApiControllerSettings.AbandonActionAffixes, (tempName) =>
             {
                 // 处理动作方法名称谓词
-                if (apiDescriptionSettings?.KeepVerb != true)
+                if (!CheckIsKeepVerb(apiDescriptionSettings, controllerApiDescriptionSettings))
                 {
-                    var words = Common.SplitCamelCase(tempName);
+                    var words = Penetrates.SplitCamelCase(tempName);
                     var verbKey = words.First().ToLower();
                     // 处理类似 getlist,getall 多个单词
-                    if (words.Length > 1 && Common.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
+                    if (words.Length > 1 && Penetrates.VerbToHttpMethods.ContainsKey((words[0] + words[1]).ToLower()))
                     {
                         tempName = tempName[(words[0] + words[1]).Length..];
                     }
-                    else if (Common.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
+                    else if (Penetrates.VerbToHttpMethods.ContainsKey(verbKey)) tempName = tempName[verbKey.Length..];
                 }
 
                 return tempName;
-            });
+            }, controllerApiDescriptionSettings);
         }
 
         /// <summary>
@@ -152,9 +154,9 @@ namespace Vop.Api.DynamicApiController
             if (selectorModel.ActionConstraints.Count > 0) return;
 
             // 解析请求谓词
-            var verbKey = Common.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
-            var verb = Common.VerbToHttpMethods.ContainsKey(verbKey)
-                ? Common.VerbToHttpMethods[verbKey]
+            var verbKey = Penetrates.GetCamelCaseFirstWord(action.ActionMethod.Name).ToLower();
+            var verb = Penetrates.VerbToHttpMethods.ContainsKey(verbKey)
+                ? Penetrates.VerbToHttpMethods[verbKey]
                 : _dynamicApiControllerSettings.DefaultHttpMethod.ToUpper();
 
             // 添加请求约束
@@ -201,7 +203,7 @@ namespace Vop.Api.DynamicApiController
 
                 var parameterType = parameterModel.ParameterType;
                 // 如果是基元类型，则跳过
-                if (parameterType.IsRichPrimitive()) continue;
+                if (IsRichPrimitive(parameterType)) continue;
 
                 // 如果是文件类型，则跳过
                 if (typeof(IFormFile).IsAssignableFrom(parameterType) || typeof(IFormFileCollection).IsAssignableFrom(parameterType)) continue;
@@ -254,9 +256,7 @@ namespace Vop.Api.DynamicApiController
             if (!string.IsNullOrEmpty(template))
             {
                 // 处理多个斜杆问题
-                if (_dynamicApiControllerSettings.LowerCaseRoute.Value) template = template.ToLower();
-                if (_dynamicApiControllerSettings.CamelCaseRoute.Value) template = template[0].ToString().ToLower() + template.Substring(1);
-                template = Regex.Replace(template, @"\/{2,}", "/");
+                template = Regex.Replace(_dynamicApiControllerSettings.LowercaseRoute.Value ? template.ToLower() : template, @"\/{2,}", "/");
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -318,13 +318,12 @@ namespace Vop.Api.DynamicApiController
                 var parameterAttributes = parameterModel.Attributes;
 
                 // 处理小写参数路由匹配问题
-                if (_dynamicApiControllerSettings.LowerCaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
-                if (_dynamicApiControllerSettings.CamelCaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName[0].ToString().ToLower() + parameterModel.ParameterName.Substring(1);
+                if (_dynamicApiControllerSettings.LowercaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 如果没有贴 [FromRoute] 特性且不是基元类型，则跳过
                 // 如果没有贴 [FromRoute] 特性且有任何绑定特性，则跳过
                 if (!parameterAttributes.Any(u => u is FromRouteAttribute)
-                    && (!parameterType.IsRichPrimitive() || parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))) continue;
+                    && (!IsRichPrimitive(parameterType) || parameterAttributes.Any(u => typeof(IBindingSourceMetadata).IsAssignableFrom(u.GetType())))) continue;
 
                 var template = $"{{{parameterModel.ParameterName}}}";
                 // 如果没有贴路由位置特性，则默认添加到动作方法后面
@@ -368,8 +367,9 @@ namespace Vop.Api.DynamicApiController
         /// <param name="orignalName"></param>
         /// <param name="affixes"></param>
         /// <param name="configure"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
         /// <returns></returns>
-        private string ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure)
+        private string ConfigureControllerAndActionName(ApiDescriptionSettingsAttribute apiDescriptionSettings, string orignalName, string[] affixes, Func<string, string> configure, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings = default)
         {
             // 获取版本号
             var apiVersion = apiDescriptionSettings?.Version;
@@ -385,27 +385,88 @@ namespace Vop.Api.DynamicApiController
                 apiVersion ??= version;
 
                 // 清除指定前后缀
-                tempName = Common.ClearStringAffixes(tempName, affixes: affixes);
+                tempName = Penetrates.ClearStringAffixes(tempName, affixes: affixes);
 
                 // 判断是否保留原有名称
-                if ((apiDescriptionSettings?.KeepName == null || apiDescriptionSettings.KeepName == false) && _dynamicApiControllerSettings?.KeepName != true)
+                if (!CheckIsKeepName(apiDescriptionSettings, controllerApiDescriptionSettings))
                 {
                     // 自定义配置
                     tempName = configure.Invoke(tempName);
 
                     // 处理骆驼命名
-                    if ((apiDescriptionSettings?.SplitCamelCase ?? true) != false)
+                    if (CheckIsSplitCamelCase(apiDescriptionSettings, controllerApiDescriptionSettings))
                     {
-                        tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Common.SplitCamelCase(tempName));
+                        tempName = string.Join(_dynamicApiControllerSettings.CamelCaseSeparator, Penetrates.SplitCamelCase(tempName));
                     }
                 }
             }
 
             // 拼接名称和版本号
             var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
-            if (_dynamicApiControllerSettings.LowerCaseRoute.Value) newName = newName.ToLower();
-            if (_dynamicApiControllerSettings.CamelCaseRoute.Value) newName = newName[0].ToString().ToLower() + newName.Substring(1);
-            return newName;
+            return _dynamicApiControllerSettings.LowercaseRoute.Value ? newName.ToLower() : newName;
+        }
+
+        /// <summary>
+        /// 检查是否设置了 KeepName参数
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private bool CheckIsKeepName(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isKeepName = false;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.KeepName == true) isKeepName = true;
+            }
+            else
+            {
+                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.KeepName == true) isKeepName = true;
+            }
+
+            return _dynamicApiControllerSettings?.KeepName == true || isKeepName;
+        }
+
+        /// <summary>
+        /// 检查是否设置了 KeepVerb 参数
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private bool CheckIsKeepVerb(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isKeepVerb = false;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
+            }
+            else
+            {
+                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.KeepVerb == true) isKeepVerb = true;
+            }
+
+            return _dynamicApiControllerSettings?.KeepVerb == true || isKeepVerb;
+        }
+
+        /// <summary>
+        /// 判断切割命名参数是否配置
+        /// </summary>
+        /// <param name="apiDescriptionSettings"></param>
+        /// <param name="controllerApiDescriptionSettings"></param>
+        /// <returns></returns>
+        private static bool CheckIsSplitCamelCase(ApiDescriptionSettingsAttribute apiDescriptionSettings, ApiDescriptionSettingsAttribute controllerApiDescriptionSettings)
+        {
+            var isSplitCamelCase = true;
+            if (controllerApiDescriptionSettings == null)
+            {
+                if (apiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+            }
+            else
+            {
+                if (apiDescriptionSettings == null && controllerApiDescriptionSettings?.SplitCamelCase == false) isSplitCamelCase = false;
+            }
+
+            return isSplitCamelCase;
         }
 
         /// <summary>
@@ -419,6 +480,24 @@ namespace Vop.Api.DynamicApiController
 
             var version = _nameVersionRegex.Match(name).Groups["version"].Value.Replace("_", ".");
             return (_nameVersionRegex.Replace(name, ""), version);
+        }
+
+        private bool IsRichPrimitive(Type type)
+        {
+            // 处理元组类型
+            if (IsValueTuple(type)) return false;
+
+            // 基元类型或值类型或字符串类型
+            if (type.IsPrimitive || type.IsValueType || type == typeof(string)) return true;
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>)) return IsRichPrimitive(type.GenericTypeArguments[0]);
+
+            return false;
+        }
+
+        private bool IsValueTuple(Type type)
+        {
+            return type.ToString().StartsWith(typeof(ValueTuple).FullName);
         }
     }
 }

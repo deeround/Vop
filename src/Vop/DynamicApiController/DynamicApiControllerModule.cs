@@ -2,26 +2,17 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Vop.Api.Authentication;
-using Vop.Api.Caching;
-using Vop.Api.CorsAccessor;
-using Vop.Api.DynamicApiController;
+using Microsoft.Extensions.Options;
+using System;
 using Vop.Api.Modularity;
 using Vop.Api.Mvc;
-using Vop.Api.Swagger;
 
-namespace Vop.Web
+namespace Vop.Api.DynamicApiController
 {
-    [DependsOn(
-        typeof(MvcModule),
-        typeof(DynamicApiControllerModule),
-        typeof(CorsAccessorModule),
-        typeof(SwaggerModule),
-        typeof(CachingModule),
-        typeof(AuthenticationModule))]
-    public class VopWebModule : ApiModuleBase
+    [DependsOn(typeof(MvcModule))]
+    public class DynamicApiControllerModule : ApiModuleBase
     {
-        public VopWebModule(IConfiguration configuration) : base(configuration)
+        public DynamicApiControllerModule(IConfiguration configuration) : base(configuration)
         {
         }
 
@@ -31,10 +22,13 @@ namespace Vop.Web
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddDynamicApiControllers();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
         }
+
+
     }
 }

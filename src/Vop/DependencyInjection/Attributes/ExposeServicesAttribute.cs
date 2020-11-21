@@ -48,7 +48,7 @@ namespace Vop.Api.DependencyInjection
         {
             var serviceTypes = new List<Type>();
 
-            foreach (var interfaceType in type.GetTypeInfo().GetInterfaces())
+            foreach (var interfaceType in type.GetInterfaces())
             {
                 var interfaceName = interfaceType.Name;
 

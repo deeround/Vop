@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -462,9 +463,84 @@ namespace Vop.Api
         /// <summary>
         /// Converts given string to a byte array using the given <paramref name="encoding"/>
         /// </summary>
-        public static byte[] GetBytes([NotNull] this string str, [NotNull] Encoding encoding)
+        public static byte[] GetBytes(this string str, Encoding encoding)
         {
             return encoding.GetBytes(str);
+        }
+
+        public static bool IsIn(this string str, params string[] list)
+        {
+            return list.Contains(str);
+        }
+
+        public static string GetCamelCaseFirstWord(this string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
+
+            if (str.Length == 1)
+            {
+                return str;
+            }
+
+            var res = Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})");
+
+            if (res.Length < 1)
+            {
+                return str;
+            }
+            else
+            {
+                return res[0];
+            }
+        }
+
+        public static string GetPascalCaseFirstWord(this string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
+
+            if (str.Length == 1)
+            {
+                return str;
+            }
+
+            var res = Regex.Split(str, @"(?=\p{Lu}\p{Ll})|(?<=\p{Ll})(?=\p{Lu})");
+
+            if (res.Length < 2)
+            {
+                return str;
+            }
+            else
+            {
+                return res[1];
+            }
+        }
+
+        public static string GetPascalOrCamelCaseFirstWord(this string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str));
+            }
+
+            if (str.Length <= 1)
+            {
+                return str;
+            }
+
+            if (str[0] >= 65 && str[0] <= 90)
+            {
+                return GetPascalCaseFirstWord(str);
+            }
+            else
+            {
+                return GetCamelCaseFirstWord(str);
+            }
         }
     }
 }

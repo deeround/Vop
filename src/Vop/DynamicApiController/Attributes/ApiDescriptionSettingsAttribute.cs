@@ -1,12 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Fur.DynamicApiController;
 using System;
 
-namespace Vop.Api.DynamicApiController
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 接口描述设置
     /// </summary>
-    public class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
+    [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
         /// 构造函数
@@ -33,7 +34,7 @@ namespace Vop.Api.DynamicApiController
         /// <param name="groups">分组列表</param>
         public ApiDescriptionSettingsAttribute(params string[] groups) : base()
         {
-            base.GroupName = string.Join(Common.GroupSeparator, groups);
+            base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
             Groups = groups;
             SplitCamelCase = true;
         }

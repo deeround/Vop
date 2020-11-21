@@ -1,4 +1,4 @@
-﻿namespace Vop.Api.DynamicApiController
+﻿namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 接口参数位置

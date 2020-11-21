@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Vop.Api.DependencyInjection;
-using Vop.Api.DynamicApiController;
+﻿using Vop.Api.DependencyInjection;
 using Vop.Api.FluentException;
 using Vop.Web.Dtos;
 

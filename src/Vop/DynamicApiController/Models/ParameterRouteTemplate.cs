@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Vop.Api.DynamicApiController
+namespace Fur.DynamicApiController
 {
     /// <summary>
     /// 参数路由模板

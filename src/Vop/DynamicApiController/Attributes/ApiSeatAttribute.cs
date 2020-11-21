@@ -1,10 +1,11 @@
 ﻿using System;
 
-namespace Vop.Api.DynamicApiController
+namespace Microsoft.AspNetCore.Mvc
 {
     /// <summary>
     /// 接口参数位置设置
     /// </summary>
+    [AttributeUsage(AttributeTargets.Parameter)]
     public class ApiSeatAttribute : Attribute
     {
         /// <summary>

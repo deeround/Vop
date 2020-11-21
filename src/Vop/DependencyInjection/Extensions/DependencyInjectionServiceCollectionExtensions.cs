@@ -126,17 +126,17 @@ namespace Microsoft.Extensions.DependencyInjection
 
         static ServiceLifetime? GetServiceLifetimeFromClassHierarcy(Type type)
         {
-            if (typeof(ITransientDependency).GetTypeInfo().IsAssignableFrom(type))
+            if (typeof(ITransientDependency).IsAssignableFrom(type))
             {
                 return ServiceLifetime.Transient;
             }
 
-            if (typeof(ISingletonDependency).GetTypeInfo().IsAssignableFrom(type))
+            if (typeof(ISingletonDependency).IsAssignableFrom(type))
             {
                 return ServiceLifetime.Singleton;
             }
 
-            if (typeof(IScopedDependency).GetTypeInfo().IsAssignableFrom(type))
+            if (typeof(IScopedDependency).IsAssignableFrom(type))
             {
                 return ServiceLifetime.Scoped;
             }
