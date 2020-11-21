@@ -1,4 +1,4 @@
-﻿using Fur.DynamicApiController;
+﻿using Vop.Api.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Formatters;

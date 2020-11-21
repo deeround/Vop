@@ -1,4 +1,4 @@
-﻿using Fur.DynamicApiController;
+﻿using Vop.Api.DynamicApiController;
 using System;
 
 namespace Microsoft.AspNetCore.Mvc

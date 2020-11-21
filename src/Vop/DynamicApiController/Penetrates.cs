@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace Fur.DynamicApiController
+namespace Vop.Api.DynamicApiController
 {
     /// <summary>
     /// 常量、公共方法配置类

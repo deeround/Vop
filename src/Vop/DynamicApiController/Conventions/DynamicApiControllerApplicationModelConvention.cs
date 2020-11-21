@@ -9,7 +9,7 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Fur.DynamicApiController
+namespace Vop.Api.DynamicApiController
 {
     /// <summary>
     /// 动态接口控制器应用模型转换器

@@ -9,10 +9,9 @@ using Vop.Api.Modularity;
 
 namespace Vop.Api.Mvc
 {
-    [DependsOn(typeof(FluentResultModule), typeof(FluentExceptionModule), typeof(MvcCoreModule))]
-    public class MvcModule : ApiModuleBase
+    public class MvcCoreModule : ApiModuleBase
     {
-        public MvcModule(IConfiguration configuration) : base(configuration)
+        public MvcCoreModule(IConfiguration configuration) : base(configuration)
         {
         }
 
@@ -22,14 +21,24 @@ namespace Vop.Api.Mvc
 
         public override void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<ICancellationTokenProvider, HttpContextCancellationTokenProvider>();
+
             services.AddControllers()
-                 .AddMvcValidation()
-                 .AddMvcResult()
-                 .AddMvcException();
+                 .AddNewtonsoftJson();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

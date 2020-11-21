@@ -1,4 +1,4 @@
-﻿using Fur.DynamicApiController;
+﻿using Vop.Api.DynamicApiController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
@@ -35,7 +35,7 @@ namespace Vop.Web.Services
             );
         }
 
-        public async Task<BookCacheItem> Get2Async(string bookId)
+        public async Task<BookCacheItem> Get2Async(string bookId, string bookName)
         {
             return await _cache.GetOrAddAsync(
                 bookId.ToString(), //Cache key

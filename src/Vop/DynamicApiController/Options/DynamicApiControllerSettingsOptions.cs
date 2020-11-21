@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
-namespace Fur.DynamicApiController
+namespace Vop.Api.DynamicApiController
 {
     /// <summary>
     /// 动态接口控制器配置
@@ -46,7 +46,6 @@ namespace Fur.DynamicApiController
         /// <summary>
         /// 版本号分隔符
         /// </summary>
-        [Required]
         public string VersionSeparator { get; set; }
 
         /// <summary>
@@ -78,10 +77,10 @@ namespace Fur.DynamicApiController
         {
             DefaultRoutePrefix ??= "api";
             DefaultHttpMethod ??= "POST";
-            LowercaseRoute ??= true;
-            KeepVerb ??= false;
+            LowercaseRoute ??= false;
+            KeepVerb ??= true;
             KeepName ??= false;
-            CamelCaseSeparator ??= "-";
+            CamelCaseSeparator ??= "";
             VersionSeparator ??= "@";
             ModelToQuery ??= false;
             SupportedMvcController ??= false;

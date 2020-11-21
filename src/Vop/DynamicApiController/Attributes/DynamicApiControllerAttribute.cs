@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Fur.DynamicApiController
+namespace Vop.Api.DynamicApiController
 {
     /// <summary>
     /// 动态 WebApi特性接口

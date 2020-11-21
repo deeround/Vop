@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Controllers;
 using System.Reflection;
 
-namespace Fur.DynamicApiController
+namespace Vop.Api.DynamicApiController
 {
     /// <summary>
     /// 动态接口控制器特性提供器
