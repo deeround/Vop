@@ -26,7 +26,12 @@ namespace Vop.Api.DynamicApiController
         /// <summary>
         /// 小写路由
         /// </summary>
-        public bool? LowercaseRoute { get; set; }
+        public bool? LowerCaseRoute { get; set; }
+
+        /// <summary>
+        /// 驼峰路由
+        /// </summary>
+        public bool? CamelCaseRoute { get; set; }
 
         /// <summary>
         /// 保留行为名称谓词
@@ -77,13 +82,14 @@ namespace Vop.Api.DynamicApiController
         {
             DefaultRoutePrefix ??= "api";
             DefaultHttpMethod ??= "POST";
-            LowercaseRoute ??= false;
+            LowerCaseRoute ??= false;
+            CamelCaseRoute ??= true;
             KeepVerb ??= true;
             KeepName ??= false;
             CamelCaseSeparator ??= "";
             VersionSeparator ??= "@";
-            ModelToQuery ??= false;
-            SupportedMvcController ??= false;
+            ModelToQuery ??= true;
+            SupportedMvcController ??= true;
             AbandonControllerAffixes ??= new string[]
             {
                 "AppServices",

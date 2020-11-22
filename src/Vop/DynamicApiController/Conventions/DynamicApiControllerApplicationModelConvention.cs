@@ -222,7 +222,7 @@ namespace Vop.Api.DynamicApiController
         {
             var selectorModel = action.Selectors[0];
             // 跳过已配置路由特性的配置
-            if (selectorModel.AttributeRouteModel != null) return;
+            if (selectorModel.AttributeRouteModel != null && !string.IsNullOrEmpty(selectorModel.AttributeRouteModel.Template)) return;
 
             // 读取模块
             var module = apiDescriptionSettings?.Module;
@@ -242,9 +242,12 @@ namespace Vop.Api.DynamicApiController
                 // 生成控制器模板
                 controllerRouteTemplate = GenerateControllerRouteTemplate(action.Controller, controllerApiDescriptionSettingsAttribute, parameterRouteTemplate);
 
-                // 拼接动作方法路由模板
-                var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
-                var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
+                //// 拼接动作方法路由模板
+                //var ActionStartTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionStartTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionStartTemplates)) : null;
+                //var ActionEndTemplate = parameterRouteTemplate != null ? (parameterRouteTemplate.ActionEndTemplates.Count == 0 ? null : string.Join("/", parameterRouteTemplate.ActionEndTemplates)) : null;
+
+                var ActionStartTemplate = string.Empty;
+                var ActionEndTemplate = string.Empty;
 
                 // 判断是否定义了控制器路由，如果定义，则不拼接控制器路由
                 template = string.IsNullOrEmpty(controllerRouteTemplate)
@@ -256,7 +259,9 @@ namespace Vop.Api.DynamicApiController
             if (!string.IsNullOrEmpty(template))
             {
                 // 处理多个斜杆问题
-                template = Regex.Replace(_dynamicApiControllerSettings.LowercaseRoute.Value ? template.ToLower() : template, @"\/{2,}", "/");
+                template = Regex.Replace(template, @"\/{2,}", "/");
+                if (_dynamicApiControllerSettings.CamelCaseRoute.Value) template = template.ToCamelCase();
+                if (_dynamicApiControllerSettings.LowerCaseRoute.Value) template = template.ToLower();
 
                 // 生成路由
                 actionAttributeRouteModel = string.IsNullOrEmpty(template) ? null : new AttributeRouteModel(new RouteAttribute(template));
@@ -279,7 +284,7 @@ namespace Vop.Api.DynamicApiController
         {
             var selectorModel = controller.Selectors[0];
             // 跳过已配置路由特性的配置
-            if (selectorModel.AttributeRouteModel != null) return default;
+            if (selectorModel.AttributeRouteModel != null && !string.IsNullOrEmpty(selectorModel.AttributeRouteModel.Template)) return default;
 
             // 读取模块
             var module = apiDescriptionSettings?.Module ?? _dynamicApiControllerSettings.DefaultModule;
@@ -317,8 +322,8 @@ namespace Vop.Api.DynamicApiController
                 var parameterType = parameterModel.ParameterType;
                 var parameterAttributes = parameterModel.Attributes;
 
-                // 处理小写参数路由匹配问题
-                if (_dynamicApiControllerSettings.LowercaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
+                //// 处理小写参数路由匹配问题
+                //if (_dynamicApiControllerSettings.LowerCaseRoute.Value) parameterModel.ParameterName = parameterModel.ParameterName.ToLower();
 
                 // 如果没有贴 [FromRoute] 特性且不是基元类型，则跳过
                 // 如果没有贴 [FromRoute] 特性且有任何绑定特性，则跳过
@@ -403,7 +408,9 @@ namespace Vop.Api.DynamicApiController
 
             // 拼接名称和版本号
             var newName = $"{tempName}{(string.IsNullOrEmpty(apiVersion) ? null : $"{_dynamicApiControllerSettings.VersionSeparator}{apiVersion}")}";
-            return _dynamicApiControllerSettings.LowercaseRoute.Value ? newName.ToLower() : newName;
+            if (_dynamicApiControllerSettings.CamelCaseRoute.Value) newName = newName.ToCamelCase();
+            if (_dynamicApiControllerSettings.LowerCaseRoute.Value) newName = newName.ToLower();
+            return newName;
         }
 
         /// <summary>

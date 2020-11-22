@@ -8,6 +8,8 @@ using Vop.Api.Authentication;
 using Vop.Api.Caching;
 using Vop.Api.DependencyInjection;
 using Vop.Web.Models;
+using Vop.Web.Dtos;
+using Vop.Api.FluentException;
 
 namespace Vop.Web.Services
 {
@@ -54,7 +56,24 @@ namespace Vop.Web.Services
             return _jwtTokenHandler.CreateToken(sod); ;
         }
 
+        /// <summary>
+        /// 测试Get
+        /// </summary>
+        /// <returns></returns>
+        public string GetOne1(Demo1GetDto dto)
+        {
+            throw new ApiException("哈哈哈");
+            return "1";
+        }
 
+        /// <summary>
+        /// 测试Update
+        /// </summary>
+        /// <returns></returns>
+        public string UpdateModel1(Demo1GetDto dto)
+        {
+            return "1";
+        }
 
 
 

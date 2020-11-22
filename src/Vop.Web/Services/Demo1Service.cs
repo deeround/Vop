@@ -4,7 +4,6 @@ using Vop.Web.Dtos;
 
 namespace Vop.Web.Services
 {
-    [Interceptor(typeof(LogDispatchProxy))]
     public class Demo1Service : ITransientDependency
     {
         /// <summary>

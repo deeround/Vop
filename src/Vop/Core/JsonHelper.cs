@@ -1,9 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using System.Text.Json;
 
 namespace Vop.Api
 {
@@ -15,11 +11,11 @@ namespace Vop.Api
             if (value is string) return (string)value;
             if (value.GetType().IsValueType) return value.ToString();
 
-            var setting = new JsonSerializerSettings();
-            setting.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
-            setting.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
-
-            return JsonConvert.SerializeObject(value, Formatting.None, setting);
+            var options = new JsonSerializerOptions()
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            return JsonSerializer.Serialize(value, options);
         }
         public static T Deserialize<T>(object value)
         {
@@ -36,11 +32,11 @@ namespace Vop.Api
             }
             if (value is string)
             {
-                return JsonConvert.DeserializeObject<T>((string)value);
+                return JsonSerializer.Deserialize<T>((string)value);
             }
 
             var json = Serialize(value);
-            return JsonConvert.DeserializeObject<T>(json);
+            return JsonSerializer.Deserialize<T>(json);
         }
         public static object Deserialize(object value, Type objType)
         {
@@ -57,11 +53,11 @@ namespace Vop.Api
             }
             if (value is string)
             {
-                return JsonConvert.DeserializeObject((string)value, objType);
+                return JsonSerializer.Deserialize((string)value, objType);
             }
 
             var json = Serialize(value);
-            return JsonConvert.DeserializeObject(json, objType);
+            return JsonSerializer.Deserialize(json, objType);
         }
     }
 }

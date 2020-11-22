@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vop.Api.FluentException;
-using Vop.Api.FluentResult;
 using Vop.Api.Modularity;
 
 namespace Vop.Api.Mvc
 {
+    [DependsOn(typeof(FluentExceptionModule))]
     public class MvcCoreModule : ApiModuleBase
     {
         public MvcCoreModule(IConfiguration configuration) : base(configuration)
@@ -24,8 +24,7 @@ namespace Vop.Api.Mvc
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ICancellationTokenProvider, HttpContextCancellationTokenProvider>();
 
-            services.AddControllers()
-                 .AddNewtonsoftJson();
+            services.AddControllers();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)

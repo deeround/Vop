@@ -18,9 +18,9 @@ namespace Vop.Api.Swagger
         {
             services.Configure<SwaggerSettingsOptions>(options =>
             {
-                options.Title = "Api";
+                options.Title = "api";
                 options.Version = null;
-                options.Description = "Api接口文档";
+                options.Description = "api接口文档";
             });
         }
 

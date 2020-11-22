@@ -9,7 +9,7 @@ using Vop.Web.Services;
 
 namespace Vop.Web.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("")]
     [ApiController]
     public class Demo1Controller : ControllerBase
     {
@@ -24,17 +24,24 @@ namespace Vop.Web.Controllers
         /// 测试Get
         /// </summary>
         /// <returns></returns>
-        [HttpGet("getOne1")]
         public string GetOne1(Demo1GetDto dto)
         {
             return _demo1Service.GetOne1(dto);
         }
 
         /// <summary>
+        /// 测试Get
+        /// </summary>
+        /// <returns></returns>
+        public string GetOne2(string id1, string id2)
+        {
+            return "1";
+        }
+
+        /// <summary>
         /// 测试Update
         /// </summary>
         /// <returns></returns>
-        [HttpPost("updateModel1")]
         public string UpdateModel1(Demo1GetDto dto)
         {
             return _demo1Service.UpdateModel1(dto);

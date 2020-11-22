@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("Api", new OpenApiInfo()
+                c.SwaggerDoc("api", new OpenApiInfo()
                 {
                     Title = options.Title,
                     Version = options.Version,
@@ -61,7 +61,7 @@ namespace Microsoft.Extensions.DependencyInjection
             // Enable middleware to serve swagger-ui (HTML, JS, CSS etc.), specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"/{options.Title}/swagger.json", "Api");
+                c.SwaggerEndpoint($"/{options.Title}/swagger.json", "api");
             });
 
             return app;
