@@ -2,6 +2,7 @@
 using System;
 using Vop.Api.FluentException;
 using Vop.Api.FluentResult;
+using Vop.Api.ObjectMapping;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -9,6 +10,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddObjectMapper(this IServiceCollection services)
         {
+            services.AddSingleton<IAutoObjectMappingProvider, NotImplementedAutoObjectMappingProvider>();
+
             return services;
         }
 

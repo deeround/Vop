@@ -1,9 +1,8 @@
 using System;
-using Vop.Api.DependencyInjection;
 
 namespace Vop.Api.ObjectMapping
 {
-    public sealed class NotImplementedAutoObjectMappingProvider : IAutoObjectMappingProvider, ISingletonDependency
+    public sealed class NotImplementedAutoObjectMappingProvider : IAutoObjectMappingProvider
     {
         public TDestination Map<TSource, TDestination>(object source)
         {
