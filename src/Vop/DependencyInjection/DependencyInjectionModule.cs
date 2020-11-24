@@ -21,6 +21,8 @@ namespace Vop.Api.DependencyInjection
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddDependencyInjection();
+
+            ApiApplication.Services = services;
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)

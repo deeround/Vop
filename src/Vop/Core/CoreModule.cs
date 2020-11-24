@@ -20,8 +20,6 @@ namespace Vop.Api
         public override void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ICancellationTokenProvider>(NullCancellationTokenProvider.Instance);
-
-            ApiApplication.Services = services;
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)

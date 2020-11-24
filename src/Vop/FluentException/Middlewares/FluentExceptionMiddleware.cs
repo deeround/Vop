@@ -9,12 +9,12 @@ namespace Vop.Api.FluentException
     public class FluentExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly IFluentResultProvider _fluentResultProvider;
+        private readonly IFluentExceptionProvider _fluentExceptionProvider;
 
-        public FluentExceptionMiddleware(RequestDelegate next, IFluentResultProvider fluentResultProvider)
+        public FluentExceptionMiddleware(RequestDelegate next, IFluentExceptionProvider fluentExceptionProvider)
         {
             _next = next;
-            _fluentResultProvider = fluentResultProvider;
+            _fluentExceptionProvider = fluentExceptionProvider;
         }
 
         public async Task Invoke(HttpContext context)
@@ -36,7 +36,7 @@ namespace Vop.Api.FluentException
             var response = context.Response;
             response.StatusCode = (int)HttpStatusCode.InternalServerError;
             response.ContentType = "application/json";
-            await response.WriteAsync(JsonHelper.Serialize(_fluentResultProvider.OnException(exception))).ConfigureAwait(false);
+            await response.WriteAsync(JsonHelper.Serialize(_fluentExceptionProvider.OnException(exception))).ConfigureAwait(false);
         }
 
 

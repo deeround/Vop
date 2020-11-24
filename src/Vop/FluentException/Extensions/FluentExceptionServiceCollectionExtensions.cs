@@ -8,6 +8,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddFluentException(this IServiceCollection services, ErrorCodeOptions option)
         {
+            services.AddSingleton<IFluentExceptionProvider, DefaultFluentExceptionProvider>();
+
             return services;
         }
 

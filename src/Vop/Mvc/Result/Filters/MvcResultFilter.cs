@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
 using Vop.Api.FluentResult;
 
-namespace Vop.Api
+namespace Vop.Api.Mvc
 {
     public class MvcResultFilter : IAsyncActionFilter, IOrderedFilter
     {
-        private readonly IFluentResultProvider _fluentResultProvider;
+        private readonly IMvcResultProvider _mvcResultProvider;
 
-        public MvcResultFilter(IFluentResultProvider fluentResultProvider)
+        public MvcResultFilter(IMvcResultProvider mvcResultProvider)
         {
-            _fluentResultProvider = fluentResultProvider;
+            _mvcResultProvider = mvcResultProvider;
         }
 
         public int Order => 9999;
@@ -22,11 +22,7 @@ namespace Vop.Api
 
             if (actionExecutedContext.Exception == null)
             {
-                object data;
-                if (actionExecutedContext.Result is ContentResult contentResult) data = contentResult.Content;
-                else if (actionExecutedContext.Result is ObjectResult objectResult) data = objectResult.Value;
-                else data = null;
-                actionExecutedContext.Result = _fluentResultProvider.OnSuccessed(data);
+                _mvcResultProvider.OnSuccessed(actionExecutedContext);
             }
         }
     }

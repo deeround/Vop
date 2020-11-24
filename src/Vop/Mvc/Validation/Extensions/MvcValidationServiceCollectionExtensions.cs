@@ -1,5 +1,4 @@
-﻿using Vop.Api;
-using Microsoft.AspNetCore.Mvc;
+﻿using Vop.Api.Mvc;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -7,6 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IMvcBuilder AddMvcValidation(this IMvcBuilder mvcBuilder)
         {
+            mvcBuilder.Services.AddSingleton<IMvcValidationProvider, DefaultMvcValidationProvider>();
+
             // 使用自定义验证
             mvcBuilder.ConfigureApiBehaviorOptions(options =>
             {

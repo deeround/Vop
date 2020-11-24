@@ -1,5 +1,4 @@
-﻿using Vop.Api;
-using Microsoft.AspNetCore.Mvc;
+﻿using Vop.Api.Mvc;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -7,6 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IMvcBuilder AddMvcResult(this IMvcBuilder mvcBuilder)
         {
+            mvcBuilder.Services.AddSingleton<IMvcResultProvider, DefaultMvcResultProvider>();
+
             mvcBuilder.AddMvcOptions(options =>
             {
                 options.Filters.Add<MvcResultFilter>();

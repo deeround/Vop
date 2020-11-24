@@ -2,10 +2,17 @@
 using System.Threading.Tasks;
 using Vop.Api.FluentException;
 
-namespace Vop.Api
+namespace Vop.Api.Mvc
 {
     public class MvcValidationFilter : IAsyncActionFilter, IOrderedFilter
     {
+        private readonly IMvcValidationProvider _mvcValidationProvider;
+
+        public MvcValidationFilter(IMvcValidationProvider mvcValidationProvider)
+        {
+            _mvcValidationProvider = mvcValidationProvider;
+        }
+
         public int Order => -9999;
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -13,16 +20,7 @@ namespace Vop.Api
             var modelState = context.ModelState;
             if (!modelState.IsValid)
             {
-                //var output = new Output()
-                //{
-                //    Code = 0,
-                //    Msg = "操作失败",
-                //    ErrMsg = "验证不通过"
-                //};
-                //var result = new ObjectResult(output);
-                //context.Result = result;
-
-                throw new ApiValidationException("Your request is not valid, please correct and try again!");
+                _mvcValidationProvider.OnValidate(modelState);
             }
             else
             {

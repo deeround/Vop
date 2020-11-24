@@ -1,17 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Net;
 using Vop.Api.FluentException;
 
 namespace Vop.Api.FluentResult
 {
-    /// <summary>
-    /// RESTful 风格返回值
-    /// </summary>
     public class DefaultFluentResultProvider : IFluentResultProvider
     {
         /// <summary>
@@ -48,6 +40,7 @@ namespace Vop.Api.FluentResult
         {
             if (exception is ApiException) return exception as ApiException;
             else if (exception.InnerException != null && exception.InnerException is ApiException) return exception.InnerException as ApiException;
+            else if (exception.InnerException != null && exception.InnerException.InnerException != null && exception.InnerException.InnerException is ApiException) return exception.InnerException.InnerException as ApiException;
             else return new ApiUnknowException(exception.Message, exception);
         }
 

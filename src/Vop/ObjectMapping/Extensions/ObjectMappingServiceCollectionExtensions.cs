@@ -11,6 +11,8 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddObjectMapper(this IServiceCollection services)
         {
             services.AddSingleton<IAutoObjectMappingProvider, NotImplementedAutoObjectMappingProvider>();
+            services.AddSingleton<IObjectMapper, DefaultObjectMapper>();
+            services.AddSingleton(typeof(IObjectMapper<>), typeof(DefaultObjectMapper<>));
 
             return services;
         }

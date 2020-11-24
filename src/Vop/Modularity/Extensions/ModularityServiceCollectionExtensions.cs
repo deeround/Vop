@@ -17,8 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             TryAdd(typeof(TApiModule));
             LoadModules(typeof(TApiModule));
-            TryAdd(typeof(DependencyInjectionModule));
             TryAdd(typeof(CoreModule));
+            TryAdd(typeof(DependencyInjectionModule));
             InitModules(configuration);
 
             ModuleConfigure(services);
@@ -69,6 +69,7 @@ namespace Microsoft.Extensions.DependencyInjection
         static void LoadModules(Type type)
         {
             var types = GetDependModules(type);
+            types.Reverse();
             foreach (var item in types)
             {
                 TryAdd(item);

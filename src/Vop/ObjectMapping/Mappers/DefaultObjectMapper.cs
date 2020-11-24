@@ -17,7 +17,7 @@ namespace Vop.Api.ObjectMapping
         }
     }
 
-    public class DefaultObjectMapper : IObjectMapper, ITransientDependency
+    public class DefaultObjectMapper : IObjectMapper
     {
         public IAutoObjectMappingProvider AutoObjectMappingProvider { get; }
         protected IServiceProvider ServiceProvider { get; }
