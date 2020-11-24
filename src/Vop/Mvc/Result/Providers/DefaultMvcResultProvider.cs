@@ -21,7 +21,7 @@ namespace Vop.Api.Mvc
             if (context.Result is ContentResult contentResult) data = contentResult.Content;
             else if (context.Result is ObjectResult objectResult) data = objectResult.Value;
             else data = null;
-            context.Result = _fluentResultProvider.OnSuccessed(data);
+            context.Result = new JsonResult(_fluentResultProvider.OnSuccessed(data));
         }
     }
 }

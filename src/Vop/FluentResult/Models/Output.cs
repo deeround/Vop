@@ -1,4 +1,7 @@
-﻿namespace Vop.Api.FluentResult
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+
+namespace Vop.Api.FluentResult
 {
     public class Output
     {
@@ -26,5 +29,9 @@
         /// 
         /// </summary>
         public object Data { get; set; }
+    }
+    public class OutputWithErrors : Output, IHasValidationErrors
+    {
+        public IList<ValidationResult> ValidationErrors { get; set; }
     }
 }

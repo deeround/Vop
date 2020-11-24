@@ -8,9 +8,10 @@ namespace Vop.Web.Dtos
 {
     public class Demo1GetDto
     {
+        [Required]
         public string Id { get; set; }
 
-        [MinLength(1)]
+        [MinLength(2)]
         public string Name { get; set; }
     }
 }

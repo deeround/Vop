@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using Vop.Api.FluentException;
 
 namespace Vop.Api.FluentResult
@@ -12,20 +11,37 @@ namespace Vop.Api.FluentResult
         public virtual object OnException(Exception exception)
         {
             ApiException exp = ResolveException(exception);
-            Output output = new Output()
+
+            Output output = null;
+
+            if (exp is IHasValidationErrors errors)
             {
-                Code = 0,
-                Msg = exp.Msg,
-                ErrCode = exp.Code,
-                ErrMsg = exp.Message,
-            };
+                output = new OutputWithErrors()
+                {
+                    Code = 0,
+                    Msg = exp.Msg,
+                    ErrCode = exp.Code,
+                    ErrMsg = exp.Message,
+                    ValidationErrors = errors.ValidationErrors
+                };
+            }
+            else
+            {
+                output = new Output()
+                {
+                    Code = 0,
+                    Msg = exp.Msg,
+                    ErrCode = exp.Code,
+                    ErrMsg = exp.Message,
+                };
+            }
             return output;
         }
 
         /// <summary>
         /// 成功返回值
         /// </summary>
-        public virtual IActionResult OnSuccessed(object data)
+        public virtual object OnSuccessed(object data)
         {
             Output output = new Output()
             {
@@ -33,7 +49,7 @@ namespace Vop.Api.FluentResult
                 Msg = "操作成功",
                 Data = data
             };
-            return new JsonResult(output);
+            return output;
         }
 
         private ApiException ResolveException(Exception exception)

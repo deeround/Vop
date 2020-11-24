@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vop.Api.Modularity;
 
 namespace Vop.Api
 {
@@ -19,6 +20,8 @@ namespace Vop.Api
         /// This can not be used before initialize the application.
         /// </summary>
         public static IServiceProvider ServiceProvider => Services.BuildServiceProvider();
+
+        public static IList<IApiModule> ApiModules { get; set; }
 
         /// <summary>
         /// 获取瞬时服务

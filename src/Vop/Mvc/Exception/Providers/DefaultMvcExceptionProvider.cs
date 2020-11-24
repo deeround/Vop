@@ -9,7 +9,6 @@ namespace Vop.Api.Mvc
     {
         public virtual void OnException(ExceptionContext context)
         {
-            // 设置异常结果
             var exception = context.Exception;
 
             throw exception;

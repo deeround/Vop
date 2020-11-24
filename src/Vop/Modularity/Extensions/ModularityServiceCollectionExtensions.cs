@@ -15,11 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddStartupModule<TApiModule>(this IServiceCollection services, IConfiguration configuration) where TApiModule : IApiModule
         {
-            TryAdd(typeof(TApiModule));
-            LoadModules(typeof(TApiModule));
-            TryAdd(typeof(CoreModule));
-            TryAdd(typeof(DependencyInjectionModule));
-            InitModules(configuration);
+            InitModules(typeof(TApiModule), configuration);
 
             ModuleConfigure(services);
             ModuleConfigureServices(services);
@@ -36,7 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         static void ModuleConfigure(IServiceCollection services)
         {
-            foreach (var item in Modules)
+            foreach (var item in ApiApplication.ApiModules)
             {
                 item.Configure(services);
             }
@@ -44,7 +40,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         static void ModuleConfigureServices(IServiceCollection services)
         {
-            foreach (var item in Modules)
+            foreach (var item in ApiApplication.ApiModules)
             {
                 item.ConfigureServices(services);
             }
@@ -52,7 +48,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
         static void ModuleConfigure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            foreach (var item in Modules)
+            foreach (var item in ApiApplication.ApiModules)
             {
                 item.Configure(app, env);
             }
@@ -63,43 +59,54 @@ namespace Microsoft.Extensions.DependencyInjection
 
 
 
-        static List<Type> ModuleTypes = new List<Type>();
-        static List<IApiModule> Modules = new List<IApiModule>();
 
-        static void LoadModules(Type type)
+
+        static void LoadModules(Type type, List<Type> moduleTypes)
         {
             var types = GetDependModules(type);
             types.Reverse();
             foreach (var item in types)
             {
-                TryAdd(item);
+                TryAdd(item, moduleTypes);
             }
             foreach (var item in types)
             {
-                LoadModules(item);
+                LoadModules(item, moduleTypes);
             }
         }
 
-        static void InitModules(IConfiguration configuration)
+        static List<IApiModule> InitModules(Type startModule, IConfiguration configuration)
         {
-            ModuleTypes.Reverse();
-            foreach (var item in ModuleTypes)
+            List<Type> moduleTypes = new List<Type>();
+            List<IApiModule> modules = new List<IApiModule>();
+
+            TryAdd(startModule, moduleTypes);
+            LoadModules(startModule, moduleTypes);
+            TryAdd(typeof(CoreModule), moduleTypes);
+            TryAdd(typeof(DependencyInjectionModule), moduleTypes);
+
+            moduleTypes.Reverse();
+            foreach (var item in moduleTypes)
             {
                 if (IsModule(item))
                 {
                     var m = Activator.CreateInstance(item, configuration) as IApiModule;
-                    Modules.Add(m);
+                    modules.Add(m);
                 }
             }
+
+            ApiApplication.ApiModules = modules;
+
+            return modules;
         }
 
-        static void TryAdd(Type type)
+        static void TryAdd(Type type, List<Type> moduleTypes)
         {
-            if (ModuleTypes.Contains(type))
+            if (moduleTypes.Contains(type))
             {
-                ModuleTypes.Remove(type);
+                moduleTypes.Remove(type);
             }
-            ModuleTypes.Add(type);
+            moduleTypes.Add(type);
         }
 
         static bool IsModule(Type type)

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 
 namespace Vop.Api.FluentResult
 {
@@ -16,6 +15,6 @@ namespace Vop.Api.FluentResult
         /// <summary>
         /// 成功返回值
         /// </summary>
-        IActionResult OnSuccessed(object data);
+        object OnSuccessed(object data);
     }
 }

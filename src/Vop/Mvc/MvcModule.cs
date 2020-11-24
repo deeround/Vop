@@ -7,7 +7,9 @@ using Vop.Api.Modularity;
 
 namespace Vop.Api.Mvc
 {
-    [DependsOn(typeof(FluentExceptionModule), typeof(MvcCoreModule))]
+    [DependsOn(
+        typeof(FluentExceptionModule),
+        typeof(MvcCoreModule))]
     public class MvcModule : ApiModuleBase
     {
         public MvcModule(IConfiguration configuration) : base(configuration)
