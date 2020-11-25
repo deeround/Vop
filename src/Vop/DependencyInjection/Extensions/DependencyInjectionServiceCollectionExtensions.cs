@@ -59,9 +59,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     services.Add(serviceDescriptor);
                 }
-
-                //// 注册代理类
-                var proxyType = GetProxyService(type);
             }
         }
 
@@ -107,7 +104,7 @@ namespace Microsoft.Extensions.DependencyInjection
             };
 
             var attrs = type.GetCustomAttributes<ExposeServicesAttribute>(true);
-            if (attrs == null || attrs.Count() == 0) attrs = new List<ExposeServicesAttribute> { DefaultExposeServicesAttribute };
+            if (attrs == null || !attrs.Any()) attrs = new List<ExposeServicesAttribute> { DefaultExposeServicesAttribute };
             return attrs
                 .SelectMany(p => p.GetExposedServiceTypes(type))
                 .ToList();

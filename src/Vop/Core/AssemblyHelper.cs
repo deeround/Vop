@@ -56,7 +56,7 @@ namespace Vop.Api
                 {
                     allAssemblies.Add(AssemblyLoadContext.Default.LoadFromAssemblyName(new AssemblyName(item)));
                 }
-                catch (Exception ex)
+                catch
                 {
                     //忽略
                 }

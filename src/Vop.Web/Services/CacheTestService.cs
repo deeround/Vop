@@ -10,6 +10,8 @@ using Vop.Api.DependencyInjection;
 using Vop.Web.Models;
 using Vop.Web.Dtos;
 using Vop.Api.FluentException;
+using Vop.Api.ObjectMapping;
+using Vop.Api;
 
 namespace Vop.Web.Services
 {
@@ -17,11 +19,13 @@ namespace Vop.Web.Services
     {
         private readonly IDistributedCache<BookCacheItem> _cache;
         private readonly IJwtTokenHandler _jwtTokenHandler;
+        private readonly IObjectMapper _objectMapper;
 
         public CacheTestService(IDistributedCache<BookCacheItem> cache, IJwtTokenHandler jwtTokenHandler)
         {
             _cache = cache;
             _jwtTokenHandler = jwtTokenHandler;
+            _objectMapper = ApiApplication.GetRequestService<IObjectMapper>();
         }
 
         [Authorize]
@@ -72,6 +76,7 @@ namespace Vop.Web.Services
         /// <returns></returns>
         public string UpdateModel1(Demo1GetDto dto)
         {
+            var user = _objectMapper.Map<Demo1GetDto, Demo1GetModel>(dto);
             return "1";
         }
 

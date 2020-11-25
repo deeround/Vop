@@ -12,8 +12,7 @@ namespace Vop.Api.FluentResult
         {
             ApiException exp = ResolveException(exception);
 
-            Output output = null;
-
+            Output output;
             if (exp is IHasValidationErrors errors)
             {
                 output = new OutputWithErrors()

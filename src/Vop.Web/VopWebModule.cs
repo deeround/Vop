@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Vop.Api.Authentication;
+using Vop.Api.AutoMapper;
 using Vop.Api.Caching;
 using Vop.Api.CorsAccessor;
 using Vop.Api.DynamicApiController;
@@ -18,6 +19,7 @@ namespace Vop.Web
         typeof(CorsAccessorModule),
         typeof(SwaggerModule),
         typeof(CachingModule),
+        typeof(AutoMapperModule),
         typeof(AuthenticationModule))]
     public class VopWebModule : ApiModuleBase
     {

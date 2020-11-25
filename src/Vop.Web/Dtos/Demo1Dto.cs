@@ -14,4 +14,10 @@ namespace Vop.Web.Dtos
         [MinLength(2)]
         public string Name { get; set; }
     }
+    public class Demo1GetModel
+    {
+        public string Id { get; set; }
+
+        public string Name { get; set; }
+    }
 }
