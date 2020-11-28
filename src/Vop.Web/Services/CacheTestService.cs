@@ -25,7 +25,7 @@ namespace Vop.Web.Services
         {
             _cache = cache;
             _jwtTokenHandler = jwtTokenHandler;
-            _objectMapper = ApiApplication.GetRequestService<IObjectMapper>();
+            _objectMapper = ApiApplication.GetService<IObjectMapper>();
         }
 
         [Authorize]

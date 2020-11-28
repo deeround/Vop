@@ -2,14 +2,6 @@
 
 namespace Vop.Api.AutoMapper
 {
-    public class AutoMapperAutoObjectMappingProvider<TContext> : AutoMapperAutoObjectMappingProvider, IAutoObjectMappingProvider<TContext>
-    {
-        public AutoMapperAutoObjectMappingProvider(IMapperAccessor mapperAccessor) 
-            : base(mapperAccessor)
-        {
-        }
-    }
-
     public class AutoMapperAutoObjectMappingProvider : IAutoObjectMappingProvider
     {
         public IMapperAccessor MapperAccessor { get; }

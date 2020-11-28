@@ -46,7 +46,8 @@ namespace Vop.Api
                     !name.StartsWith("Newtonsoft") &&
                     !name.StartsWith("Oracle") &&
                     !name.StartsWith("Npgsql") &&
-                    !name.StartsWith("MySql")
+                    !name.StartsWith("MySql") &&
+                    !name.StartsWith("AutoMapper")
                     ;
                 }).ToList();
 

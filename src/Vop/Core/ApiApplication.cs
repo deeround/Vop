@@ -47,7 +47,7 @@ namespace Vop.Api
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public static object GetRequestService(Type type)
+        public static object GetRequiredService(Type type)
         {
             return ServiceProvider.GetRequiredService(type);
         }
@@ -56,7 +56,7 @@ namespace Vop.Api
         /// 获取作用域服务
         /// </summary>
         /// <returns></returns>
-        public static T GetRequestService<T>()
+        public static T GetRequiredService<T>()
         {
             return ServiceProvider.GetRequiredService<T>();
         }
