@@ -17,7 +17,7 @@ namespace Vop.Api.Authentication
             _options = options;
         }
 
-        public TokenInfo CreateToken(Dictionary<string, object> payload)
+        public virtual TokenInfo CreateToken(Dictionary<string, object> payload)
         {
             var options = _options.Value;
             var claims = new List<Claim>();

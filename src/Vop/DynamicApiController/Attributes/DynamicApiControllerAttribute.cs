@@ -6,7 +6,7 @@ namespace Vop.Api.DynamicApiController
     /// 动态 WebApi特性接口
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface)]
-    public sealed class DynamicApiControllerAttribute : Attribute
+    public class DynamicApiControllerAttribute : Attribute
     {
     }
 }

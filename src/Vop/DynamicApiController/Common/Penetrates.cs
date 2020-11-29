@@ -14,11 +14,6 @@ namespace Vop.Api.DynamicApiController
     internal static class Penetrates
     {
         /// <summary>
-        /// 分组分隔符
-        /// </summary>
-        internal const string GroupSeparator = "@";
-
-        /// <summary>
         /// 请求动词映射字典
         /// </summary>
         internal static Dictionary<string, string> VerbToHttpMethods { get; private set; }

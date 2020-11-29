@@ -2,7 +2,7 @@ using System;
 
 namespace Vop.Api.ObjectMapping
 {
-    public sealed class NotImplementedAutoObjectMappingProvider : IAutoObjectMappingProvider
+    public class NotImplementedAutoObjectMappingProvider : IAutoObjectMappingProvider
     {
         public TDestination Map<TSource, TDestination>(object source)
         {

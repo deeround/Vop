@@ -6,7 +6,7 @@ namespace Vop.Api.DynamicApiController
     /// <summary>
     /// 动态接口控制器配置
     /// </summary>
-    public sealed class DynamicApiControllerSettingsOptions
+    public class DynamicApiControllerSettingsOptions
     {
         /// <summary>
         /// 默认路由前缀

@@ -83,8 +83,7 @@ namespace Vop.Api.Caching
             return KeyNormalizer.NormalizeKey(
                 new DistributedCacheKeyNormalizeArgs(
                     key.ToString(),
-                    CacheName,
-                    IgnoreMultiTenancy
+                    CacheName
                 )
             );
         }

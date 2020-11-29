@@ -7,7 +7,7 @@ namespace Microsoft.AspNetCore.Mvc
     /// 接口描述设置
     /// </summary>
     [AttributeUsage(AttributeTargets.Interface | AttributeTargets.Class | AttributeTargets.Method)]
-    public sealed class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
+    public class ApiDescriptionSettingsAttribute : ApiExplorerSettingsAttribute
     {
         /// <summary>
         /// 构造函数
@@ -25,17 +25,6 @@ namespace Microsoft.AspNetCore.Mvc
         {
             base.IgnoreApi = !enabled;
             Enabled = enabled;
-            SplitCamelCase = true;
-        }
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="groups">分组列表</param>
-        public ApiDescriptionSettingsAttribute(params string[] groups) : base()
-        {
-            base.GroupName = string.Join(Penetrates.GroupSeparator, groups);
-            Groups = groups;
             SplitCamelCase = true;
         }
 
@@ -73,11 +62,6 @@ namespace Microsoft.AspNetCore.Mvc
         /// 版本号
         /// </summary>
         public string Version { get; set; }
-
-        /// <summary>
-        /// 分组
-        /// </summary>
-        public string[] Groups { get; set; }
 
         /// <summary>
         /// 标签

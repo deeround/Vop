@@ -14,7 +14,7 @@ namespace Vop.Api.DynamicApiController
     /// <summary>
     /// 动态接口控制器应用模型转换器
     /// </summary>
-    internal sealed class DynamicApiControllerApplicationModelConvention : IApplicationModelConvention
+    internal class DynamicApiControllerApplicationModelConvention : IApplicationModelConvention
     {
         /// <summary>
         /// 动态接口控制器配置实例

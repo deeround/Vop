@@ -6,7 +6,7 @@ namespace Vop.Api.DynamicApiController
     /// <summary>
     /// 动态接口控制器特性提供器
     /// </summary>
-    public sealed class DynamicApiControllerFeatureProvider : ControllerFeatureProvider
+    public class DynamicApiControllerFeatureProvider : ControllerFeatureProvider
     {
         /// <summary>
         /// 扫描控制器
