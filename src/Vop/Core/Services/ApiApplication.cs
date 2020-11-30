@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,9 @@ using Vop.Api.Modularity;
 
 namespace Vop.Api
 {
+    /// <summary>
+    /// 应用全局静态服务
+    /// </summary>
     public static class ApiApplication
     {
         /// <summary>
@@ -21,10 +25,13 @@ namespace Vop.Api
         /// </summary>
         public static IServiceProvider ServiceProvider => Services.BuildServiceProvider();
 
+        /// <summary>
+        /// 所有使用的模块
+        /// </summary>
         public static IList<IApiModule> ApiModules { get; set; }
 
         /// <summary>
-        /// 获取瞬时服务
+        /// 获取服务
         /// </summary>
         /// <param name="type">类型</param>
         /// <returns></returns>
@@ -34,7 +41,7 @@ namespace Vop.Api
         }
 
         /// <summary>
-        /// 获取瞬时服务
+        /// 获取服务
         /// </summary>
         /// <returns></returns>
         public static T GetService<T>()
@@ -43,7 +50,7 @@ namespace Vop.Api
         }
 
         /// <summary>
-        /// 获取作用域服务
+        /// 获取服务
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -53,12 +60,33 @@ namespace Vop.Api
         }
 
         /// <summary>
-        /// 获取作用域服务
+        /// 获取服务
         /// </summary>
         /// <returns></returns>
         public static T GetRequiredService<T>()
         {
             return ServiceProvider.GetRequiredService<T>();
+        }
+
+        /// <summary>
+        /// 获取作用域服务
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static object GetRequestService(Type type)
+        {
+            var serviceProvider = GetService<IHttpContextAccessor>()?.HttpContext?.RequestServices;
+            return serviceProvider == null ? null : serviceProvider.GetService(type);
+        }
+
+        /// <summary>
+        /// 获取作用域服务
+        /// </summary>
+        /// <returns></returns>
+        public static T GetRequestService<T>()
+        {
+            var serviceProvider = GetService<IHttpContextAccessor>()?.HttpContext?.RequestServices;
+            return serviceProvider == null ? default(T) : serviceProvider.GetService<T>();
         }
     }
 }

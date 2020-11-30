@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddAuthentication(this IServiceCollection services, JwtSettingsOptions option)
         {
-            services.AddTransient<IJwtTokenHandler, JwtTokenHandler>();
+            services.AddSingleton<IJwtTokenHandler, JwtTokenHandler>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

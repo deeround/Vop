@@ -20,7 +20,7 @@ namespace Vop.Api.Mvc
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.Replace(
                  ServiceDescriptor.Transient<ICancellationTokenProvider, HttpContextCancellationTokenProvider>()
              );
