@@ -13,7 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class AutoMapperServiceCollectionExtensions
     {
-        public static IServiceCollection AddAutoMapperObjectMapper(this IServiceCollection services)
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
         {
             var mapperAccessor = new MapperAccessor();
             services.AddSingleton<IMapperAccessor>(_ => mapperAccessor);
@@ -26,7 +26,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return services;
         }
 
-        public static IApplicationBuilder UseAutoMapperObjectMapper(this IApplicationBuilder app)
+        public static IApplicationBuilder UseAutoMapper(this IApplicationBuilder app)
         {
             var mapperConfiguration = new MapperConfiguration(cfg =>
             {

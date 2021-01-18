@@ -19,17 +19,18 @@ namespace Vop.Api.Authentication
 
         public override void Configure(IServiceCollection services)
         {
-            services.Configure<JwtSettingsOptions>(options =>
+            services.Configure<JwtSettingsOptions>(Configuration.GetSection("Auth"));
+            services.PostConfigure<JwtSettingsOptions>(options =>
             {
-                options.ValidateIssuerSigningKey = true;
-                options.IssuerSigningKey = "123456123456123456";
-                options.ValidateIssuer = false;
-                options.ValidIssuer = "vop.api";
-                options.ValidateAudience = false;
-                options.ValidAudience = "vop.web";
-                options.ValidateLifetime = true;
-                options.ClockSkew = 300;
-                options.ExpiredTime = 3600;
+                options.ValidateIssuerSigningKey ??= true;
+                options.IssuerSigningKey ??= "123456123456123456";
+                options.ValidateIssuer ??= false;
+                options.ValidIssuer ??= "vop.api";
+                options.ValidateAudience = options.ValidateAudience ?? false;
+                options.ValidAudience ??= "vop.web";
+                options.ValidateLifetime ??= true;
+                options.ClockSkew ??= 300;
+                options.ExpiredTime ??= 3600;
             });
         }
 

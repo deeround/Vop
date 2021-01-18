@@ -16,6 +16,7 @@ namespace Vop.Api.CorsAccessor
 
         public override void Configure(IServiceCollection services)
         {
+            services.Configure<CorsAccessorBuilderOptions>(Configuration.GetSection("Cors"));
             services.Configure<CorsAccessorBuilderOptions>(builder =>
             {
                 builder.Name = "localhost";

@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Vop.AutoMapper\Vop.AutoMapper.csproj" />
+    <ProjectReference Include="..\Vop.RedisCache\Vop.RedisCache.csproj" />
     <ProjectReference Include="..\Vop\Vop.csproj" />
   </ItemGroup>
 

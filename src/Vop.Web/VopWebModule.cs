@@ -9,6 +9,7 @@ using Vop.Api.CorsAccessor;
 using Vop.Api.DynamicApiController;
 using Vop.Api.Modularity;
 using Vop.Api.Mvc;
+using Vop.Api.RedisCache;
 using Vop.Api.Swagger;
 
 namespace Vop.Web
@@ -20,7 +21,9 @@ namespace Vop.Web
         typeof(SwaggerModule),
         typeof(CachingModule),
         typeof(AutoMapperModule),
-        typeof(AuthenticationModule))]
+        typeof(AuthenticationModule),
+        typeof(RedisCacheModule)
+        )]
     public class VopWebModule : ApiModuleBase
     {
         public VopWebModule(IConfiguration configuration) : base(configuration)

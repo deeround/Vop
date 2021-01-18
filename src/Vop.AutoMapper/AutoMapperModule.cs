@@ -21,12 +21,12 @@ namespace Vop.Api.AutoMapper
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapperObjectMapper();
+            services.AddAutoMapper();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseAutoMapperObjectMapper();
+            app.UseAutoMapper();
         }
     }
 }

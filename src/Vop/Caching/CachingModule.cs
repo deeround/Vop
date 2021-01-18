@@ -17,9 +17,10 @@ namespace Vop.Api.Caching
 
         public override void Configure(IServiceCollection services)
         {
-            services.Configure<DistributedCacheOptions>(cacheOptions =>
+            services.Configure<DistributedCacheOptions>(Configuration.GetSection("Cache"));
+            services.PostConfigure<DistributedCacheOptions>(options =>
             {
-                cacheOptions.GlobalCacheEntryOptions.SlidingExpiration = TimeSpan.FromMinutes(20);
+                options.GlobalCacheEntryOptions.SlidingExpiration ??= TimeSpan.FromMinutes(20);
             });
         }
 

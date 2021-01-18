@@ -11,6 +11,11 @@ namespace Vop.Api
 {
     public static class AssemblyHelper
     {
+        /// <summary>
+        /// 获取所有类型
+        /// </summary>
+        /// <param name="assembly"></param>
+        /// <returns></returns>
         public static IReadOnlyList<Type> GetAllTypes(Assembly assembly)
         {
             try
