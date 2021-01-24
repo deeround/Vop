@@ -21,7 +21,7 @@ namespace Vop.Api.RedisCache
             services.Configure<RedisCacheOptions>(Configuration.GetSection("RedisCache"));
             services.PostConfigure<RedisCacheOptions>(options =>
             {
-                options.InstanceName = "vop:";
+                options.InstanceName ??= "vop:";
             });
         }
 

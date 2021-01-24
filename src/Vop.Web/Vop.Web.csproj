@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vop.AutoMapper\Vop.AutoMapper.csproj" />
-    <ProjectReference Include="..\Vop.RedisCache\Vop.RedisCache.csproj" />
-    <ProjectReference Include="..\Vop\Vop.csproj" />
+    <ProjectReference Include="..\Vop.Api.AutoMapper\Vop.Api.AutoMapper.csproj" />
+    <ProjectReference Include="..\Vop.Api.RedisCache\Vop.Api.RedisCache.csproj" />
+    <ProjectReference Include="..\Vop.Api\Vop.Api.csproj" />
   </ItemGroup>
 
 </Project>

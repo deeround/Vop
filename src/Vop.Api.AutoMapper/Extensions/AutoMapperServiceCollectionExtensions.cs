@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
 using System.Linq;
 using Vop.Api;
 using Vop.Api.AutoMapper;
-using Vop.Api.FluentException;
-using Vop.Api.FluentResult;
 using Vop.Api.ObjectMapping;
 
 namespace Microsoft.Extensions.DependencyInjection

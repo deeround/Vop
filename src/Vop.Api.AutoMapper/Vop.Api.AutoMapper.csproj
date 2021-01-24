@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Vop\Vop.csproj" />
+    <ProjectReference Include="..\Vop.Api\Vop.Api.csproj" />
   </ItemGroup>
 
 </Project>
