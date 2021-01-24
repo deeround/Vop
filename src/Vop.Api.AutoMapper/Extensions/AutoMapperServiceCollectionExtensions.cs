@@ -43,7 +43,7 @@ namespace Microsoft.Extensions.DependencyInjection
                   });
                 });
             });
-            ApiApplication.GetRequiredService<MapperAccessor>().Mapper = mapperConfiguration.CreateMapper();
+            ApiApplication.GetService<MapperAccessor>().Mapper = mapperConfiguration.CreateMapper();
 
             return app;
         }

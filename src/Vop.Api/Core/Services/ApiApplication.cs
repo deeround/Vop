@@ -23,7 +23,7 @@ namespace Vop.Api
         /// Reference to the root service provider used by the application.
         /// This can not be used before initialize the application.
         /// </summary>
-        public static IServiceProvider ServiceProvider => Services.BuildServiceProvider();
+        public static IServiceProvider ServiceProvider => Services?.BuildServiceProvider();
 
         /// <summary>
         /// 所有使用的模块
@@ -37,7 +37,7 @@ namespace Vop.Api
         /// <returns></returns>
         public static object GetService(Type type)
         {
-            return ServiceProvider.GetService(type);
+            return ServiceProvider?.GetService(type);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Vop.Api
         /// <returns></returns>
         public static T GetService<T>()
         {
-            return ServiceProvider.GetService<T>();
+            return ServiceProvider == null ? default(T) : ServiceProvider.GetService<T>();
         }
 
         /// <summary>
@@ -56,16 +56,7 @@ namespace Vop.Api
         /// <returns></returns>
         public static object GetRequiredService(Type type)
         {
-            return ServiceProvider.GetRequiredService(type);
-        }
-
-        /// <summary>
-        /// 获取服务
-        /// </summary>
-        /// <returns></returns>
-        public static T GetRequiredService<T>()
-        {
-            return ServiceProvider.GetRequiredService<T>();
+            return ServiceProvider?.GetRequiredService(type);
         }
 
         /// <summary>
