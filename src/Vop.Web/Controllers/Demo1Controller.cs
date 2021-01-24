@@ -12,7 +12,7 @@ namespace Vop.Web.Controllers
 {
     [Route("")]
     [ApiController]
-    [ErrorCode(ErrCode = 1002, ErrMsg = "demo异常1002")]
+    [Exception(Code = 1002, Message = "demo异常1002")]
     public class Demo1Controller : ControllerBase
     {
         private readonly Demo1Service _demo1Service;

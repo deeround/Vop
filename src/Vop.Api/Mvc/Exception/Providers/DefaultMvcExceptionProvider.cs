@@ -20,20 +20,20 @@ namespace Vop.Api.Mvc
             {
                 //查询action上是否标记的错误码
                 var action = (context.ActionDescriptor as ControllerActionDescriptor);
-                var errorCodeAttribute = action.MethodInfo.GetCustomAttributes(typeof(ErrorCodeAttribute), false).FirstOrDefault() as ErrorCodeAttribute;
+                var errorCodeAttribute = action.MethodInfo.GetCustomAttributes(typeof(ExceptionAttribute), false).FirstOrDefault() as ExceptionAttribute;
                 if (errorCodeAttribute != null)
                 {
-                    throw new ApiException(errorCodeAttribute.ErrCode, errorCodeAttribute.ErrMsg, exception);
+                    throw new ApiException(errorCodeAttribute.Code, errorCodeAttribute.Message, exception);
                 }
                 //查询controller上是否标记的错误码
-                errorCodeAttribute = action.ControllerTypeInfo.GetCustomAttributes(typeof(ErrorCodeAttribute), false).FirstOrDefault() as ErrorCodeAttribute;
+                errorCodeAttribute = action.ControllerTypeInfo.GetCustomAttributes(typeof(ExceptionAttribute), false).FirstOrDefault() as ExceptionAttribute;
                 if (errorCodeAttribute != null)
                 {
-                    throw new ApiException(errorCodeAttribute.ErrCode, errorCodeAttribute.ErrMsg, exception);
+                    throw new ApiException(errorCodeAttribute.Code, errorCodeAttribute.Message, exception);
                 }
 
                 //如果都没有
-                throw new ApiUnknowException(exception.Message, exception);
+                throw new ApiException(exception.Message, exception);
             }
 
             throw exception;

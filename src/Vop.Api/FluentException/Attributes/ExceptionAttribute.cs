@@ -2,17 +2,17 @@
 
 namespace Vop.Api.FluentException
 {
-    public class ErrorCodeAttribute : Attribute
+    public class ExceptionAttribute : Attribute
     {
         /// <summary>
         /// 错误码
         /// </summary>
-        public int ErrCode { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// 错误消息
         /// </summary>
-        public string ErrMsg { get; set; }
+        public string Message { get; set; }
 
     }
 }

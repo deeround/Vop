@@ -18,7 +18,7 @@ namespace Vop.Api.FluentResult
                 output = new OutputWithErrors()
                 {
                     Code = 0,
-                    Msg = exp.Msg,
+                    Msg = "操作成功",
                     ErrCode = exp.Code,
                     ErrMsg = exp.Message,
                     ValidationErrors = errors.ValidationErrors
@@ -29,7 +29,7 @@ namespace Vop.Api.FluentResult
                 output = new Output()
                 {
                     Code = 0,
-                    Msg = exp.Msg,
+                    Msg = "操作成功",
                     ErrCode = exp.Code,
                     ErrMsg = exp.Message,
                 };
@@ -56,7 +56,7 @@ namespace Vop.Api.FluentResult
             if (exception is ApiException) return exception as ApiException;
             else if (exception.InnerException != null && exception.InnerException is ApiException) return exception.InnerException as ApiException;
             else if (exception.InnerException != null && exception.InnerException.InnerException != null && exception.InnerException.InnerException is ApiException) return exception.InnerException.InnerException as ApiException;
-            else return new ApiUnknowException(exception.Message, exception);
+            else return new ApiException(exception.Message, exception);
         }
 
     }
