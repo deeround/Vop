@@ -72,40 +72,5 @@ namespace Vop.Api.DynamicApiController
         /// 被舍弃的行为名称前后缀
         /// </summary>
         public string[] AbandonActionAffixes { get; set; }
-
-        /// <summary>
-        /// 选项后期配置
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="configuration"></param>
-        public DynamicApiControllerSettingsOptions()
-        {
-            DefaultRoutePrefix ??= "api";
-            DefaultHttpMethod ??= "POST";
-            LowerCaseRoute ??= false;
-            CamelCaseRoute ??= true;
-            KeepVerb ??= true;
-            KeepName ??= false;
-            CamelCaseSeparator ??= "";
-            VersionSeparator ??= "@";
-            ModelToQuery ??= true;
-            SupportedMvcController ??= true;
-            AbandonControllerAffixes ??= new string[]
-            {
-                "AppServices",
-                "AppService",
-                "ApiServices",
-                "ApiService",
-                "AppController",
-                "ApiController",
-                "Controller",
-                "Services",
-                "Service"
-            };
-            AbandonActionAffixes ??= new string[]
-            {
-                "Async"
-            };
-        }
     }
 }

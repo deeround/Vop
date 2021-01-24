@@ -16,11 +16,12 @@ namespace Vop.Api.Swagger
 
         public override void Configure(IServiceCollection services)
         {
-            services.Configure<SwaggerSettingsOptions>(options =>
+            services.Configure<SwaggerSettingsOptions>(Configuration.GetSection("Swagger"));
+            services.PostConfigure<SwaggerSettingsOptions>(options =>
             {
-                options.Title = "api";
-                options.Version = null;
-                options.Description = "api接口文档";
+                options.Title ??= "api";
+                options.Version ??= "v1.0";
+                options.Description ??= "api接口文档";
             });
         }
 

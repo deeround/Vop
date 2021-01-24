@@ -39,7 +39,5 @@ namespace Vop.Api.FluentException
             await response.WriteAsync(JsonHelper.Serialize(_fluentExceptionProvider.OnException(exception))).ConfigureAwait(false);
         }
 
-
-
     }
 }

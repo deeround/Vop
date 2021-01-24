@@ -7,22 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Options\**" />
-    <Compile Remove="Vop.Api.DynamicWebApi\**" />
-    <Content Remove="Options\**" />
-    <Content Remove="Vop.Api.DynamicWebApi\**" />
-    <EmbeddedResource Remove="Options\**" />
-    <EmbeddedResource Remove="Vop.Api.DynamicWebApi\**" />
-    <None Remove="Options\**" />
-    <None Remove="Vop.Api.DynamicWebApi\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
-
-  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

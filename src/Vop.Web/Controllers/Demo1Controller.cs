@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vop.Api.FluentException;
 using Vop.Web.Dtos;
 using Vop.Web.Services;
 
@@ -11,6 +12,7 @@ namespace Vop.Web.Controllers
 {
     [Route("")]
     [ApiController]
+    [ErrorCode(ErrCode = 1002, ErrMsg = "demo异常1002")]
     public class Demo1Controller : ControllerBase
     {
         private readonly Demo1Service _demo1Service;
@@ -33,9 +35,10 @@ namespace Vop.Web.Controllers
         /// 测试Get
         /// </summary>
         /// <returns></returns>
+        //[ErrorCode(ErrCode = 10021, ErrMsg = "demo异常10021")]
         public string GetOne2(string id1, string id2)
         {
-            return "1";
+            throw new Exception("aaa");
         }
 
         /// <summary>

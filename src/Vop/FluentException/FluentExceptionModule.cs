@@ -18,20 +18,11 @@ namespace Vop.Api.FluentException
 
         public override void Configure(IServiceCollection services)
         {
-            services.Configure<ErrorCodeOptions>(builder =>
-            {
-                builder
-                .Add(-1, "未知错误")
-                .Add(4000, "系统错误")
-                .Add(4001, "入参验证失败");
-            });
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            var option = ApiApplication.GetService<IOptions<ErrorCodeOptions>>();
-
-            services.AddFluentException(option.Value);
+            services.AddFluentException();
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)

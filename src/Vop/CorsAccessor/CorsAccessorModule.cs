@@ -16,26 +16,25 @@ namespace Vop.Api.CorsAccessor
 
         public override void Configure(IServiceCollection services)
         {
-            services.Configure<CorsAccessorBuilderOptions>(Configuration.GetSection("Cors"));
-            services.Configure<CorsAccessorBuilderOptions>(builder =>
+            services.Configure<CorsAccessorOptions>(Configuration.GetSection("Cors"));
+            services.PostConfigure<CorsAccessorOptions>(options =>
             {
-                builder.Name = "localhost";
-                builder.WithOrigins("http://localhost:5000")
-                       .AllowAnyHeader()
-                       .AllowAnyMethod();
+
             });
         }
 
         public override void ConfigureServices(IServiceCollection services)
         {
-            var option = ApiApplication.GetService<IOptions<CorsAccessorBuilderOptions>>();
+            var option = ApiApplication.GetService<IOptions<CorsAccessorOptions>>();
 
             services.AddCorsAccessor(option.Value);
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCorsAccessor("localhost");
+            var option = ApiApplication.GetService<IOptions<CorsAccessorOptions>>();
+
+            app.UseCorsAccessor(option.Value.Name);
         }
 
 

@@ -20,7 +20,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <param name="services"></param>
         /// <returns>Mvc构建器</returns>
-        public static IServiceCollection AddDynamicApiControllers(this IServiceCollection services)
+        public static IServiceCollection AddDynamicApiControllers(this IServiceCollection services, DynamicApiControllerSettingsOptions option)
         {
             var partManager = services.FirstOrDefault(s => s.ServiceType == typeof(ApplicationPartManager)).ImplementationInstance as ApplicationPartManager
                 ?? throw new InvalidOperationException($"`{nameof(AddDynamicApiControllers)}` must be invoked after `{nameof(MvcServiceCollectionExtensions.AddControllers)}`");
@@ -29,7 +29,6 @@ namespace Microsoft.Extensions.DependencyInjection
             partManager.FeatureProviders.Add(new DynamicApiControllerFeatureProvider());
 
             // 添加配置
-            var option = ApiApplication.GetService<IOptions<DynamicApiControllerSettingsOptions>>().Value;
             services.Configure<MvcOptions>(options =>
             {
                 options.Conventions.Add(new DynamicApiControllerApplicationModelConvention(option));

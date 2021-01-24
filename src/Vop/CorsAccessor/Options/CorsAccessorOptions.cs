@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.ComponentModel.DataAnnotations;
 
-namespace Vop.ApiCorsAccessor
+namespace Vop.Api.CorsAccessor
 {
     public class CorsAccessorOptions : CorsPolicy
     {

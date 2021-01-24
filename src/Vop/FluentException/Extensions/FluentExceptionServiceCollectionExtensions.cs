@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class FluentExceptionServiceCollectionExtensions
     {
-        public static IServiceCollection AddFluentException(this IServiceCollection services, ErrorCodeOptions option)
+        public static IServiceCollection AddFluentException(this IServiceCollection services)
         {
             services.AddSingleton<IFluentExceptionProvider, DefaultFluentExceptionProvider>();
 

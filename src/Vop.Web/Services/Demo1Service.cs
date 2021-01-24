@@ -13,7 +13,6 @@ namespace Vop.Web.Services
         public string GetOne1(Demo1GetDto dto)
         {
             throw new ApiException("哈哈哈");
-            return "1";
         }
 
         /// <summary>
