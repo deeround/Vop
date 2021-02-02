@@ -18,7 +18,7 @@ namespace Vop.Api.FluentResult
                 output = new OutputWithErrors()
                 {
                     Code = 0,
-                    Msg = "操作成功",
+                    Msg = "操作失败",
                     ErrCode = exp.Code,
                     ErrMsg = exp.Message,
                     ValidationErrors = errors.ValidationErrors
@@ -29,7 +29,7 @@ namespace Vop.Api.FluentResult
                 output = new Output()
                 {
                     Code = 0,
-                    Msg = "操作成功",
+                    Msg = "操作失败",
                     ErrCode = exp.Code,
                     ErrMsg = exp.Message,
                 };

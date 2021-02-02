@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vop.Api;
 using Vop.Api.FluentException;
 using Vop.Web.Dtos;
 using Vop.Web.Services;
@@ -48,6 +49,11 @@ namespace Vop.Web.Controllers
         public string UpdateModel1(Demo1GetDto dto)
         {
             return _demo1Service.UpdateModel1(dto);
+        }
+
+        public IList<StrObjDict> GetDbOne1()
+        {
+            return _demo1Service.GetDbOne1();
         }
     }
 }
