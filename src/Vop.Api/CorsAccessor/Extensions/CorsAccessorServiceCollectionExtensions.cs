@@ -17,10 +17,18 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             else
             {
-                services.AddCors();
+                services.AddCors(options =>
+                {
+                    options.AddPolicy("any", builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        ;
+                    });
+                });
             }
-                
-
             return services;
         }
 
@@ -32,9 +40,9 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             else
             {
-                app.UseCors();
+                app.UseCors("any");
             }
-            
+
             return app;
         }
     }
