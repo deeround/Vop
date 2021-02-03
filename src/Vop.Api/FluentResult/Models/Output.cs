@@ -24,6 +24,10 @@ namespace Vop.Api.FluentResult
         /// 
         /// </summary>
         public string ErrMsg { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string ErrStack { get; set; }
 
         /// <summary>
         /// 

@@ -6,11 +6,19 @@ using Vop.Api.DependencyInjection;
 using Vop.Api.FluentException;
 using Vop.Web.Dtos;
 using WangSql;
+using WangSql.Abstract.Attributes;
 
 namespace Vop.Web.Services
 {
     public class Demo1Service : ITransientDependency
     {
+        private readonly ISqlMapper _sqlMapper;
+
+        public Demo1Service(ISqlMapper sqlMapper)
+        {
+            _sqlMapper = sqlMapper;
+        }
+
         /// <summary>
         /// 测试Get
         /// </summary>
@@ -29,7 +37,7 @@ namespace Vop.Web.Services
             return "1";
         }
 
-        [Table(AutoCreate = true)]
+        [Table]
         public class tb_user
         {
             [Column]
@@ -39,10 +47,9 @@ namespace Vop.Web.Services
         }
         public IList<StrObjDict> GetDbOne1()
         {
-            var sqlMapper = new SqlMapper();
-            sqlMapper.Migrate().Run();
-            sqlMapper.Entity<tb_user>().Insert(new tb_user() { id = Guid.NewGuid().ToString(), name = "vop" + DateTime.Now.ToString("yyyyMMddHHmmss") });
-            return sqlMapper.Query<StrObjDict>("select * from tb_user", null).ToList();
+            _sqlMapper.Migrate().CreateTable();
+            _sqlMapper.From<tb_user>().Insert(new tb_user() { id = Guid.NewGuid().ToString(), name = "vop" + DateTime.Now.ToString("yyyyMMddHHmmss") });
+            return _sqlMapper.Query<StrObjDict>("select * from tb_user", null).ToList();
         }
     }
 }

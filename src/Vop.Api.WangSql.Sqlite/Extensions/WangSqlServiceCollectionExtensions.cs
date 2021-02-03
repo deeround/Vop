@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Vop.Api.WangSql;
 using WangSql;
+using WangSql.Sqlite;
+using WangSql.Sqlite.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class WangSqlServiceCollectionExtensions
     {
-        public static IServiceCollection AddWangSql(this IServiceCollection services, DbProviderOptions option)
+        public static IServiceCollection AddWangSql(this IServiceCollection services, SqliteProviderOptions option)
         {
-            DbProviderManager.Set(option);
+            SqliteProviderManager.Init()
 
             services.AddTransient<ISqlMapper, SqlMapper>();
             services.AddTransient<ISqlExe, SqlMapper>();

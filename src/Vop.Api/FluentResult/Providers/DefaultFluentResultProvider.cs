@@ -1,10 +1,18 @@
-﻿using System;
+﻿using Microsoft.Extensions.Options;
+using System;
 using Vop.Api.FluentException;
 
 namespace Vop.Api.FluentResult
 {
     public class DefaultFluentResultProvider : IFluentResultProvider
     {
+        private readonly IOptions<CoreOptions> _coreOptions;
+
+        public DefaultFluentResultProvider(IOptions<CoreOptions> coreOptions)
+        {
+            _coreOptions = coreOptions;
+        }
+
         /// <summary>
         /// 异常返回值
         /// </summary>
@@ -12,7 +20,7 @@ namespace Vop.Api.FluentResult
         {
             ApiException exp = ResolveException(exception);
 
-            Output output;
+            Output output = null;
             if (exp is IHasValidationErrors errors)
             {
                 output = new OutputWithErrors()
@@ -33,6 +41,17 @@ namespace Vop.Api.FluentResult
                     ErrCode = exp.Code,
                     ErrMsg = exp.Message,
                 };
+            }
+            if (output != null && _coreOptions.Value != null && _coreOptions.Value.ErrStack)
+            {
+                if (exp.StackException != null)
+                {
+                    output.ErrStack = exp.StackException.StackTrace;
+                }
+                else
+                {
+                    output.ErrStack = exp.StackTrace;
+                }
             }
             return output;
         }

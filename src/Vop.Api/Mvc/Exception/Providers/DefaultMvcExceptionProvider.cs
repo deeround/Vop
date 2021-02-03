@@ -23,13 +23,13 @@ namespace Vop.Api.Mvc
                 var errorCodeAttribute = action.MethodInfo.GetCustomAttributes(typeof(ExceptionAttribute), false).FirstOrDefault() as ExceptionAttribute;
                 if (errorCodeAttribute != null)
                 {
-                    throw new ApiException(errorCodeAttribute.Code, errorCodeAttribute.Message, exception);
+                    throw new ApiException(errorCodeAttribute.Code, errorCodeAttribute.Message + exception.Message, exception);
                 }
                 //查询controller上是否标记的错误码
                 errorCodeAttribute = action.ControllerTypeInfo.GetCustomAttributes(typeof(ExceptionAttribute), false).FirstOrDefault() as ExceptionAttribute;
                 if (errorCodeAttribute != null)
                 {
-                    throw new ApiException(errorCodeAttribute.Code, errorCodeAttribute.Message, exception);
+                    throw new ApiException(errorCodeAttribute.Code, errorCodeAttribute.Message + exception.Message, exception);
                 }
 
                 //如果都没有

@@ -15,6 +15,11 @@ namespace Vop.Api
 
         public override void Configure(IServiceCollection services)
         {
+            services.Configure<CoreOptions>(Configuration.GetSection("Core"));
+            services.PostConfigure<CoreOptions>(options =>
+            {
+
+            });
         }
 
         public override void ConfigureServices(IServiceCollection services)

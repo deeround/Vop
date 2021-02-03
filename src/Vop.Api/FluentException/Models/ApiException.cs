@@ -5,11 +5,12 @@ namespace Vop.Api.FluentException
     public class ApiException : BaseException
     {
         public override int? Code { get; set; } = 4000;
+        public Exception StackException { get; set; }
         public ApiException() : base("系统错误") { }
         public ApiException(string message) : base(message) { }
-        public ApiException(string message, Exception innerException) : base(message, innerException) { }
+        public ApiException(string message, Exception innerException) : base(message, innerException) { StackException = innerException; }
         public ApiException(int? code, string message) : base(message) { this.Code = code; }
-        public ApiException(int? code, string message, Exception innerException) : base(message, innerException) { this.Code = code; }
+        public ApiException(int? code, string message, Exception innerException) : base(message, innerException) { this.Code = code; StackException = innerException; }
     }
 
 
