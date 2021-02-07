@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Vop.Api.WangSql;
 using WangSql;
 
 namespace Microsoft.Extensions.DependencyInjection

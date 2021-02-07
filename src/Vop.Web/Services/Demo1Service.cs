@@ -37,7 +37,7 @@ namespace Vop.Web.Services
             return "1";
         }
 
-        [Table]
+        [Table(TableName = "tb_user")]
         public class tb_user
         {
             [Column]
@@ -47,8 +47,9 @@ namespace Vop.Web.Services
         }
         public IList<StrObjDict> GetDbOne1()
         {
+            _sqlMapper.SqlFactory.DbProvider.SetTableMaps(new List<Type>() { typeof(tb_user) });
             _sqlMapper.Migrate().CreateTable();
-            _sqlMapper.From<tb_user>().Insert(new tb_user() { id = Guid.NewGuid().ToString(), name = "vop" + DateTime.Now.ToString("yyyyMMddHHmmss") });
+            _sqlMapper.From<tb_user>().Insert(new tb_user() { id = Guid.NewGuid().ToString(), name = "vop" + DateTime.Now.ToString("yyyyMMddHHmmss") }).SaveChanges();
             return _sqlMapper.Query<StrObjDict>("select * from tb_user", null).ToList();
         }
     }

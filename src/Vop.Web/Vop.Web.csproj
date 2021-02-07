@@ -11,6 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Vop.Api.AutoMapper\Vop.Api.AutoMapper.csproj" />
     <ProjectReference Include="..\Vop.Api.RedisCache\Vop.Api.RedisCache.csproj" />
+    <ProjectReference Include="..\Vop.Api.WangSql.Sqlite\Vop.Api.WangSql.Sqlite.csproj" />
     <ProjectReference Include="..\Vop.Api.WangSql\Vop.Api.WangSql.csproj" />
     <ProjectReference Include="..\Vop.Api\Vop.Api.csproj" />
   </ItemGroup>

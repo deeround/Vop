@@ -3,15 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Vop.Api.Caching;
 using Vop.Api.Modularity;
 using WangSql;
 
-namespace Vop.Api.WangSql
+namespace Vop.Api.WangSql.Sqlite
 {
-    public class WangSqlModule : ApiModuleBase
+    public class WangSqlSqliteModule : ApiModuleBase
     {
-        public WangSqlModule(IConfiguration configuration) : base(configuration)
+        public WangSqlSqliteModule(IConfiguration configuration) : base(configuration)
         {
         }
 
@@ -27,12 +26,12 @@ namespace Vop.Api.WangSql
         {
             var option = ApiApplication.GetService<IOptions<DbProviderOptions>>();
 
-            services.AddWangSql(option.Value);
+            services.AddWangSqlSqlite(option.Value);
         }
 
         public override void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseWangSql();
+            app.UseWangSqlSqlite();
         }
     }
 }

@@ -12,6 +12,7 @@ using Vop.Api.Mvc;
 using Vop.Api.RedisCache;
 using Vop.Api.Swagger;
 using Vop.Api.WangSql;
+using Vop.Api.WangSql.Sqlite;
 
 namespace Vop.Web
 {
@@ -24,7 +25,8 @@ namespace Vop.Web
         typeof(AutoMapperModule),
         typeof(AuthenticationModule),
         typeof(RedisCacheModule),
-        typeof(WangSqlModule)
+        typeof(WangSqlModule),
+        typeof(WangSqlSqliteModule)
         )]
     public class VopWebModule : ApiModuleBase
     {
