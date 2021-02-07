@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\WangSql\WangSql.Sqlite\WangSql.Sqlite.csproj" />
+    <ProjectReference Include="..\Vop.Api.WangSql\Vop.Api.WangSql.csproj" />
     <ProjectReference Include="..\Vop.Api\Vop.Api.csproj" />
   </ItemGroup>
 

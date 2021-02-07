@@ -8,6 +8,7 @@ using WangSql;
 
 namespace Vop.Api.WangSql.Sqlite
 {
+    [DependsOn(typeof(WangSqlModule))]
     public class WangSqlSqliteModule : ApiModuleBase
     {
         public WangSqlSqliteModule(IConfiguration configuration) : base(configuration)

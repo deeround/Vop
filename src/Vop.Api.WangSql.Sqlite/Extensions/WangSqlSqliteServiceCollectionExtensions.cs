@@ -8,9 +8,9 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class WangSqlSqliteServiceCollectionExtensions
     {
-        public static IServiceCollection AddWangSqlSqlite(this IServiceCollection services, DbProviderOptions option, IList<Type> tableMaps = null, bool autoCreateTable = false)
+        public static IServiceCollection AddWangSqlSqlite(this IServiceCollection services, DbProviderOptions option)
         {
-            SqliteProviderManager.Set(option, tableMaps, autoCreateTable);
+            SqliteProviderManager.Set(option);
 
             services.AddTransient<ISqlMapper, SqlMapper>();
             services.AddTransient<ISqlExe, SqlMapper>();
