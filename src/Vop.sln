@@ -17,11 +17,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WangSql", "..\..\WangSql\Wa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vop.Api.WangSql", "Vop.Api.WangSql\Vop.Api.WangSql.csproj", "{DADD3853-10FF-4F24-BFF1-5DC7D794EF35}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB", "DB", "{557648EC-ED60-4D0A-A597-D1954F32332D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{557648EC-ED60-4D0A-A597-D1954F32332D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WangSql.Sqlite", "..\..\WangSql\WangSql.Sqlite\WangSql.Sqlite.csproj", "{46CC881E-7345-47CB-9D76-3C0A27450C60}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vop.Api.WangSql.Sqlite", "Vop.Api.WangSql.Sqlite\Vop.Api.WangSql.Sqlite.csproj", "{70734D99-71EA-45C4-B54D-D493E8EA103D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vop.Api.WangSql.Sqlite", "Vop.Api.WangSql.Sqlite\Vop.Api.WangSql.Sqlite.csproj", "{70734D99-71EA-45C4-B54D-D493E8EA103D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

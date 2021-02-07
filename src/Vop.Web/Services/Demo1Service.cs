@@ -5,6 +5,7 @@ using Vop.Api;
 using Vop.Api.DependencyInjection;
 using Vop.Api.FluentException;
 using Vop.Web.Dtos;
+using Vop.Web.Models;
 using WangSql;
 using WangSql.Abstract.Attributes;
 
@@ -37,19 +38,13 @@ namespace Vop.Web.Services
             return "1";
         }
 
-        [Table(TableName = "tb_user")]
-        public class tb_user
-        {
-            [Column]
-            public string id { get; set; }
-            [Column]
-            public string name { get; set; }
-        }
+        /// <summary>
+        /// 测试数据库
+        /// </summary>
+        /// <returns></returns>
         public IList<StrObjDict> GetDbOne1()
         {
-            _sqlMapper.SqlFactory.DbProvider.SetTableMaps(new List<Type>() { typeof(tb_user) });
-            _sqlMapper.Migrate().CreateTable();
-            _sqlMapper.From<tb_user>().Insert(new tb_user() { id = Guid.NewGuid().ToString(), name = "vop" + DateTime.Now.ToString("yyyyMMddHHmmss") }).SaveChanges();
+            _sqlMapper.From<UserInfo>().Insert(new UserInfo() { Id = Guid.NewGuid().ToString(), Name = "vop" + DateTime.Now.ToString("yyyyMMddHHmmss") }).SaveChanges();
             return _sqlMapper.Query<StrObjDict>("select * from tb_user", null).ToList();
         }
     }

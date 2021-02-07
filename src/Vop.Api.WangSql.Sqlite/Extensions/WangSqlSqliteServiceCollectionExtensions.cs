@@ -12,8 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             SqliteProviderManager.Set(option);
 
-            services.AddTransient<ISqlMapper, SqlMapper>();
-            services.AddTransient<ISqlExe, SqlMapper>();
+            services.AddScoped<ISqlMapper, SqlMapper>();
+            services.AddScoped<ISqlExe, SqlMapper>();
 
             return services;
         }
